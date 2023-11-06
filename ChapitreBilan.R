@@ -36,11 +36,14 @@ GraphData$Verdict <- factor(
 ggplot(GraphData, aes(x = reorder(Gouvernement, Année.de.début), y = Pourcent,
                       fill = Verdict)) +
   geom_bar(stat = "identity") +
-  xlab("") +
-  ylab("% des promesses") +
-  theme(axis.text.x = element_text(hjust = 1, angle = 90)) +
   scale_fill_manual("\n\n\n\n\n\n\nVerdict", values = c(
-    "#228B22", "#F3C349", "#FF8C00", "#AE0101"))
+    "#228B22", "#F3C349", "#FF8C00", "#AE0101")) +
+  #theme_classic() +
+  scale_x_discrete("") +
+  scale_y_continuous("% des promesses") +
+  theme(axis.text.x = element_text(hjust = 1, vjust = 0.5, angle = 90),
+        panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        panel.border = element_blank(), panel.background = element_blank())
 ggsave(paste0("_SharedFolder_livre_promesses-trudeau/Chapitre 1/graphs/",
               "VerdictsParMandat.png"))
 
