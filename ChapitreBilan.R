@@ -45,3 +45,4 @@ ggplot(GraphData, aes(x = reorder(Gouvernement, Année.de.début), y = Pourcent,
         panel.border = element_blank(), panel.background = element_blank())
 ggsave(paste0("_SharedFolder_livre_promesses-trudeau/Chapitre 1/graphs/",
               "VerdictsParMandat.png"))
+
