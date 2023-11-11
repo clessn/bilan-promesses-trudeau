@@ -1,0 +1,44 @@
+\documentclass{article}
+\usepackage{graphicx}
+\usepackage[landscape]{geometry}
+\usepackage{color, colortbl}
+\definecolor{LightGray}{gray}{0.9}
+\definecolor{Gray}{gray}{0.6}
+\begin{document}
+\newcolumntype{g}{>{\columncolor{LightGray}}c}
+\begin{table}[]
+\begin{tabular}{|l|g|c|g|c|g|c|}
+\hline
+\rowcolor{Gray}
+\textbf{DOMAINES DE POLITIQUE} & \textbf{RÉALISÉES} & \textbf{PARTIELLEMENT} & \textbf{EN VOIE DE} & \textbf{EN SUSPENS} & \textbf{ROMPUES} & \textbf{TOTAL} \\ 
+\rowcolor{Gray}
+ & & \textbf{RÉALISÉES} & \textbf{RÉALISATION} & & & \textbf{(\%)} \\ \hline
+\textbf{Santé et} & 6 & 14 & 0 & 0 & 25 & \textbf{45} \\
+\textbf{services sociaux} & (13 \%) & (31 \%) & (0 \%) & (0 \%) & (56 \%) & (13 \%) \\ \hline
+\textbf{Régions et agriculture} & 12 & 4 & 0 & 0 & 6 & \textbf{22} \\
+ & (55 \%) & (18 \%) & (0 \%) & (0 \%) & (27 \%) & (6 \%) \\ \hline
+\textbf{Économie et} & 5 & 18 & 0 & 0 & 26 & \textbf{49} \\
+\textbf{employabilité} & (10 \%) & (37 \%) & (0 \%) & (0 \%) & (53 \%) & (14 \%) \\ \hline
+\textbf{Éducation et recherche} & 4 & 5 & 0 & 0 & 4 & \textbf{13} \\ 
+& (31 \%) & (38 \%) & (0 \%) & (0 \%) & (31 \%) & (4 \%) \\ \hline
+\textbf{Gouvernement} & 5 & 3 & 0 & 0 & 13 & \textbf{21} \\
+\textbf{et démocratie} & (24 \%) & (14 \%) & (0 \%) & (0 \%) & (62 \%) & (6 \%) \\ \hline
+\textbf{Environnement} & 15 & 12 & 0 & 0 & 20 & \textbf{47} \\
+& (32 \%) & (25 \%) & (0 \%) & (0 \%) & (43 \%) & (14 \%) \\ \hline
+\textbf{Familles} & 2 & 10 & 0 & 0 & 16 & \textbf{28} \\
+& (7 \%) & (36 \%) & (0 \%) & (0 \%) & (57 \%) & (8 \%) \\ \hline
+\textbf{Loi et ordre} & 7 & 8 & 0 & 0 & 20 & \textbf{35} \\
+& (20 \%) & (23 \%) & (0 \%) & (0 \%) & (57 \%) & (10 \%) \\ \hline
+\textbf{Identité et nationalisme} & 0 & 0 & 0 & 0 & 3 & \textbf{3} \\
+& (0 \%) & (0 \%) & (0 \%) & (0 \%) & (100 \%) & (1 \%) \\ \hline
+\textbf{Affaires internationales} & 7 & 1 & 0 & 0 & 16 & \textbf{24} \\ 
+\textbf{et défense} & (29 \%) & (4 \%) & (0 \%) & (0 \%) & (67 \%) & (7 \%) \\ \hline
+\textbf{Arts et culture} & 0 & 2 & 0 & 0 & 7 & \textbf{9} \\ 
+& (0 \%) & (22 \%) & (0 \%) & (0 \%) & (78 \%) & (3 \%) \\ \hline
+\textbf{Minorités} & 16 & 22 & 0 & 0 & 9 & \textbf{47} \\
+& (34 \%) & (47 \%) & (0 \%) & (0 \%) & (19 \%) & (14 \%) \\ \hline
+\textbf{Total} & 79 & 99 & 0 & 0 & 165 & \textbf{343} \\
+ & (23 \%) & (29 \%) & (0 \%) & (0 \%) & (48 \%) & (100 \%) \\ \hline
+\end{tabular}%
+\end{table}
+\end{document}
