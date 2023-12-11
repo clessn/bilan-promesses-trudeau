@@ -27,6 +27,25 @@ trudeau <- readxl::read_excel("_SharedFolder_livre_promesses-trudeau/Chapitre 1/
                         "Réalisée",
                         "Rompue"))
 
+#length(unique(trudeau$pledge_id[trudeau$mandate_id == "trudeau3"]))
+
+#### For trudeau III, need to add pledges with no source as "Rompue"
+trudeauiii_nosources <- pull(readxl::read_excel("_SharedFolder_livre_promesses-trudeau/Chapitre 1/PolimètreTrudeau-Chapitre1.xlsx",
+                              sheet = "Promesses") %>% 
+  filter(Mandat == 3 &
+         `Inclusion Polimètre` == TRUE &
+          !(Numéro %in% trudeau$pledge_id[trudeau$mandate_id == "trudeau3"])),
+  Numéro)
+
+trudeauiii_nosourcesdf <- data.frame(
+  mandate_id = "trudeau3",
+  pledge_id = trudeauiii_nosources,
+  verdict = "En suspens",
+  date = as.Date("2021-11-22")
+)
+
+trudeau <- rbind(trudeau, trudeauiii_nosourcesdf)
+
 ## Load Higgs
 higgs <- readxl::read_excel("_SharedFolder_polimetre/5. Polimètres archivés/8. Polimètre Nouveau-Brunswick (Higgs-59)/polimetre_higgs-59.xlsx",
                             sheet = "Sources") %>% 
@@ -58,6 +77,18 @@ data <- rbind(trudeau, higgs, marois) %>%
   mutate(pledge_cross_id = paste0(mandate_id, pledge_id))
 
 table(data$verdict, data$mandate_id)
+
+t <- data %>% 
+  filter(mandate_id == "trudeau3") %>% 
+  group_by(pledge_cross_id) %>% 
+  filter(date == max(date)) %>% 
+  mutate(realisee = case_when(
+              verdict %in% c("Partiellement réalisée",
+                    "Réalisée", "En voie de réalisation") ~ 1
+                  ),
+         realisee = ifelse(is.na(realisee), 0, realisee))
+
+table(t$verdict)
 
 ggplot(data, aes(x = as.Date(date))) +
   geom_histogram() +
@@ -214,16 +245,87 @@ DatesImportantes <- data.frame(
 
 ggplot(graph, aes(x = day_in_mandate, y = prop,
                   group = mandate_id, linetype = mandate_id,
-                  alpha = trudeau_mandate,
+                  alpha = mandate_id,
                   linewidth = trudeau_mandate)) +
   geom_line(linewidth = 0.5) +
   clessnverse::theme_clean_light() +
   ggrepel::geom_text_repel(data = DatesImportantes,
                            angle = 90, hjust = 0,
                            aes(label = label),
-                           size = 1.5, nudge_y = 10,
-                           segment.linetype = 2) +
-  geom_point(data = DatesImportantes, size = 0.9) +
+                           size = 2.5, nudge_y = 40,
+                           segment.linetype = 2,
+                           force = 25, direction = "x",
+                           alpha = 1) +
+  geom_point(data = DatesImportantes, size = 0.9,
+             alpha = 1) +
+  scale_linetype_manual(values = c("higgs" = "dotdash",
+                                   "marois" = "dotted",
+                                   "trudeau2" = "dashed",
+                                   "trudeau3" = "solid"),
+                        labels = c("higgs" = "Higgs 2018-2020",
+                                   "marois" = "Marois 2012-2014",
+                                   "trudeau2" = "Trudeau 2019-2021",
+                                   "trudeau3" = "Trudeau 2021-...")) +
+  scale_alpha_manual(values = c("higgs" = 0.3,
+                                "marois" = 0.3,
+                                "trudeau2" = 1,
+                                "trudeau3" = 1),
+                     labels = c("higgs" = "Higgs 2018-2020",
+                                "marois" = "Marois 2012-2014",
+                                "trudeau2" = "Trudeau 2019-2021",
+                                "trudeau3" = "Trudeau 2021-...")) +
+  guides(linetype = guide_legend(nrow = 2)) +
+  scale_linewidth_continuous(range = c(0.7, 1.3)) +
+  scale_y_continuous(limits = c(0, 100)) +
+  scale_x_continuous(breaks = c(0, 100, 200, 300, 400, 500, 600)) +
+  guides(linewidth = "none") +
+  ylab("Proportion des promesses réalisées, partiellement\nréalisées ou en voie de réalisation à ce jour (%)") +
+  xlab("Jour dans le mandat") +
+  theme(axis.title.x = element_text(hjust = 0.5),
+        axis.title.y = element_text(hjust = 0.5))
+  
+
+ggsave("_SharedFolder_livre_promesses-trudeau/Chapitre 1/graphs/progression_mandats_minoritaires.png",
+       width = 9, height = 6)
+
+
+
+### EN version
+Sys.setlocale(category = "LC_TIME",
+              locale = "en_CA.UTF-8")
+
+DatesImportantes <- data.frame(
+  date_limit = as.Date(c("2020-01-08",
+                         "2020-01-20",
+                         "2020-03-11",
+                         "2022-02-24")),
+  event = c("Ukrainian civilian plane shot down in Iran",
+            "Start of Indigenous anti-pipeline blockade",
+            "Global pandemic declared by WHO",
+            "Start of the Russian invasion of Ukraine")
+) %>% 
+  mutate(label = paste0("\n", format(as.Date(date_limit), "%B %d, %Y"), "\n", event, "\n")) %>% 
+  left_join(graph, ., by = "date_limit") %>% 
+  drop_na(event, label) %>% 
+  filter(mandate_id != "higgs")
+
+
+plot <- ggplot(graph, aes(x = day_in_mandate, y = prop,
+                  group = mandate_id, linetype = mandate_id,
+                  alpha = mandate_id,
+                  linewidth = trudeau_mandate)) +
+  geom_line(linewidth = 0.7) +
+  clessnverse::theme_clean_light() +
+  ggrepel::geom_text_repel(data = DatesImportantes,
+                           angle = 90, hjust = 0,
+                           aes(label = label),
+                           size = 2.5, nudge_y = 40,
+                           segment.linetype = 2,
+                           force = 25, direction = "x",
+                           alpha = 1) +
+  geom_point(data = DatesImportantes, size = 0.9,
+             alpha = 1) +
+  scale_y_continuous(limits = c(0, 100)) +
   scale_linetype_manual(values = c("higgs" = "dotdash",
                                    "marois" = "dotted",
                                    "trudeau2" = "dashed",
@@ -233,15 +335,24 @@ ggplot(graph, aes(x = day_in_mandate, y = prop,
                                    "trudeau2" = "Trudeau 2019-2021",
                                    "trudeau3" = "Trudeau 2021-...")) +
   guides(linetype = guide_legend(nrow = 2)) +
-  scale_alpha_continuous(range = c(0.3, 1)) +
+  scale_alpha_manual(values = c("higgs" = 0.3,
+                                "marois" = 0.3,
+                                "trudeau2" = 1,
+                                "trudeau3" = 1),
+                     labels = c("higgs" = "Higgs 2018-2020",
+                                "marois" = "Marois 2012-2014",
+                                "trudeau2" = "Trudeau 2019-2021",
+                                "trudeau3" = "Trudeau 2021-...")) +
   scale_linewidth_continuous(range = c(0.7, 1.3)) +
-  guides(alpha = "none",
-         linewidth = "none") +
-  ylab("Proportion des promesses réalisées, partiellement\nréalisées ou en voie de réalisation à ce jour (%)") +
-  xlab("Jour dans le mandat") +
-  theme(axis.title.x = element_text(hjust = 0.5),
-        axis.title.y = element_text(hjust = 0.5))
-  
+  scale_x_continuous(breaks = c(0, 100, 200, 300, 400, 500, 600)) +
+  guides(linewidth = "none") +
+  ylab("\nProportion of promises kept, partially\nkept, or in progress to date (%)\n") +
+  xlab("\nDay in mandate\n") +
+  theme(axis.title.x = element_text(hjust = 0.5, size = 12.5),
+        axis.title.y = element_text(hjust = 0.5, size = 12.5),
+        axis.text.x = element_text(size = 11),
+        axis.text.y = element_text(size = 11))
 
-ggsave("_SharedFolder_livre_promesses-trudeau/Chapitre 1/graphs/progression_mandats_minoritaires.png",
+
+ggsave(plot = plot, filename = "_SharedFolder_livre_promesses-trudeau/Chapitre 1/graphs/progression_mandats_minoritaires_EN_pres.png",
        width = 9, height = 6)
