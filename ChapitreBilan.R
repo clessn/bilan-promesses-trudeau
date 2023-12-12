@@ -6,7 +6,11 @@ Data <- openxlsx::read.xlsx(paste0(
   rename(Endroit = X1, Législature = X2, Premier.ministre = X3)
 Data <- Data[-c(11:22), ]
 Data[1:2, ][c(2, 4:7)] <- c(
-  44, 43, 106, 79, 60, 99, 9, 165, 353, 343) # Trudeau II-III
+  44, 43, # mandat
+  113, 79, # réalisée
+  64, 99, # partiellement
+  12, 165, # rompue
+  353, 343) # total Trudeau II-III
 Data[1, ][c(1, 3, 8)] <- c("CAN", "Trudeau", "Min") # Trudeau III
 Data$Statut <- ifelse(Data$X4 == "Maj", "Majoritaire", "Minoritaire")
 Data$Années <- c("2021-...", "2019-2021", "2015-2019", "2011-2015",
@@ -15,8 +19,6 @@ Data$Années <- c("2021-...", "2019-2021", "2015-2019", "2011-2015",
 Data$Année.de.début <- as.numeric(substr(Data$Années, 1, 4))
 Data$Gouvernement <- paste0(Data$Premier.ministre, " ", Data$Années, " (n = ",
                             Data$n, ")")
-Data$Government <- paste0(Data$Premier.ministre, " ", Data$Années, " (n = ",
-                          Data$n, ")")
 Data$PourcentRéalisées <- 100 * Data$Réalisée / Data$n
 Data$PourcentPartiellementRéalisées <- 100 * Data$Partiellement.réalisée /
   Data$n
@@ -39,18 +41,51 @@ GraphData$Verdict <- factor(
              "En suspens/\nEn voie de\nréalisation\n(Trudeau 44)", "Rompues"))
 GraphData$PourcentText <- str_replace_all(
   round(GraphData$Pourcent, 2), "\\.", ",")
+GraphData$PercentText <- round(GraphData$Pourcent, 2)
+GraphData$PercentText[GraphData$PercentText == 0] <- NA
+
+bold.labels <- ifelse(levels(as.factor(GraphData$Gouvernement)) %in% c(
+  "Trudeau 2015-2019 (n = 353)", "Trudeau 2019-2021 (n = 343)",
+  "Trudeau 2021-... (n = 353)"), yes = "bold", no = "plain")
+
 ggplot(GraphData, aes(x = reorder(Gouvernement, Année.de.début), y = Pourcent,
                       fill = Verdict)) +
   geom_bar(stat = "identity", position = "fill") +
-  geom_text(aes(label = PourcentText)) +
+  geom_text(aes(label = PercentText), position = position_fill(vjust = 0.5),
+            size = 2.5) +
   scale_fill_grey("\n\n\n\n\n\n\nVerdict") +
   scale_x_discrete("") +
   scale_y_continuous("% des promesses") +
-  theme(axis.text.x = element_text(hjust = 1, vjust = 0.5, angle = 90),
+  theme(axis.text.x = element_text(hjust = 1, vjust = 0.5, angle = 90,
+                                   face = bold.labels),
         panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
         panel.border = element_blank(), panel.background = element_blank())
 ggsave(paste0("_SharedFolder_livre_promesses-trudeau/Chapitre 1/graphs/",
-              "VerdictsParMandat.png"))
+              "VerdictsParMandat.png"), width = 5.5, height = 4.25)
+
+GraphData$VerdictEN <- NA
+GraphData$VerdictEN <- factor(
+  GraphData$Verdict,
+  levels = c("Réalisées", "Partiellement\nréalisées",
+             "En suspens/\nEn voie de\nréalisation\n(Trudeau 44)", "Rompues"),
+  labels = c("Kept", "Partially kept",
+             "Not yet rated/\nIn the works\n(Trudeau 44)", "Broken"))
+ggplot(GraphData, aes(x = reorder(Gouvernement, Année.de.début),
+                      y = Pourcent, fill = VerdictEN)) +
+  geom_bar(stat = "identity", position = "fill") +
+  geom_text(aes(label = PercentText), position = position_fill(vjust = 0.5),
+            size = 2.5) +
+  scale_fill_manual("\n\n\n\n\n\n\nVerdict", values = c(
+    "#228B22", "#F3C349", "#FF8C00", "#AE0101")) +
+  scale_x_discrete("") +
+  scale_y_continuous("% of promises\n",
+                     labels = scales::percent_format(scale = 100)) +
+  theme(axis.text.x = element_text(hjust = 1, vjust = 0.5, angle = 90,
+                                   face = bold.labels),
+        panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        panel.border = element_blank(), panel.background = element_blank())
+ggsave(paste0("_SharedFolder_livre_promesses-trudeau/Chapitre 1/graphs/",
+              "VerdictsParMandat-EN.png"), width = 5.5, height = 4.25)
 
 Promesses <- openxlsx::read.xlsx(paste0(
   "_SharedFolder_livre_promesses-trudeau/Chapitre 1/PolimètreTrudeau-Chapitre",

@@ -1,0 +1,38 @@
+\documentclass{beamer}
+
+% Thème et couleurs
+\usetheme{default}
+\usecolortheme{default}
+\setbeamertemplate{navigation symbols}{} % Enlever les icônes de navigation
+
+% Utilisation de la police Poppins-Light
+\usepackage{fontspec}
+%\setmainfont{Poppins-Light}[Extension=.ttf]
+
+% Utilisation de flèches minimalistes pour les puces
+\setbeamertemplate{itemize item}{\(\rightarrow\)}
+\setbeamertemplate{itemize subitem}{\(\rightarrow\)}
+
+
+% Retirer les pieds de page, les têtes de page et les cadres
+\setbeamertemplate{footline}{}
+\setbeamertemplate{headline}{}
+\setbeamertemplate{frametitle}{
+    \vspace{1em}
+    \insertframetitle
+}
+
+\let\olditem\item
+\renewcommand{\item}{\olditem \vspace{1\baselineskip}}
+
+% Définir toutes les couleurs en noir et utiliser \circ pour les listes
+\setbeamercolor{title}{fg=black}
+\setbeamercolor{frametitle}{fg=black}
+\setbeamercolor{item}{fg=black}
+\setbeamercolor{subitem}{fg=black}
+
+\begin{document}
+
+\addtobeamertemplate{navigation symbols}{}{\usebeamerfont{footline}\usebeamercolor[fg]{footline}\hspace{1em}\insertframenumber}
+
+\end{document}

@@ -13,14 +13,11 @@ institute:
   - Université Laval
 format:
   beamer:
-    theme: Dresden
     toc: true
     incremental: true
     slide-level: 3
 date: "December 11, 2023"
 date-format: long
-header-includes:
-  - \addtobeamertemplate{navigation symbols}{}{\usebeamerfont{footline}\usebeamercolor[fg]{footline}\hspace{1em}\insertframenumber}
 ---
 # Setting
 
@@ -28,9 +25,62 @@ header-includes:
 
 ```{r}
 #| echo: false
-#| out.width: "275pt"
+#| out.width: "300pt"
+#| fig-cap: "Federal Governments' Pledge Fulfillment by Mandate"
+knitr::include_graphics("_SharedFolder_livre_promesses-trudeau/Chapitre 1/graphs/VerdictsParMandat-EN.png")
+```
+
+<!--
+Présentation surtout descriptive aujourd'hui, pour établir les bases
+
+beaucoup de promesses 3 derniers mandats. Promesses pour Premières Nations, promesses pour Inuits, promesses pour Métis
+
+% de promesses réalisées par mandat : score le plus élevé = Harper 2011-2015
+
+% de promesses rompues par mandat = le + faible pour Harper
+
+score + faible pour Trudeau
+
+Excluant le mandat actuel, depuis 1993, pour le mandat moyen, 55,8 % des promesses ont été réalisées, 13,8 % ont été partiellement réalisées et 30,3 % ont été rompues
+
+Les gouvernements canadiens tendent donc à réaliser davantage de promesses que celles qu’ils rompent
+
+Les gouvernements minoritaires semblent également réaliser moins de promesses que les gouvernements majoritaires (Chrétien exception)
+
+Beaucoup de promesses partiellement réalisées. Promesses au moins 2 fois + longues. Beaucoup de mentions de collaboration avec provinces et peuples autochtones
+
+
+-->
+
+----
+
+```{r}
+#| echo: false
+#| out.width: "325pt"
 #| fig-cap: "Time Trends of Pledge Fulfillment Through Time in Recent Canadian Minority Governments"
 knitr::include_graphics("_SharedFolder_livre_promesses-trudeau/Chapitre 1/graphs/progression_mandats_minoritaires_EN_pres.png")
 ```
+<!--
+Durant le mandat de 2019-2021, le taux de réalisation des promesses électorales et a été relativement faible comparativement aux autres mandats minoritaires étudiés. Le mandat a connu un démarrage particulièrement lent, la proportion des promesses tenues plafonnant à 6 % pendant la majorité des 500 premiers jours. Cette stagnation a été suivie d'une hausse modeste au 501e jour, où le taux a grimpé à 15 %, indiquant une accélération dans l'accomplissement des engagements en raison du dépôt du Budget 2021-2022.
 
-# THANK YOU!
+Il est pertinent de noter trois événements significatifs survenus au début du mandat, chacun ayant potentiellement influencé la capacité du gouvernement à honorer ses promesses : l'avion civil ukrainien abattu en Iran, les blocus autochtones anti-gazoduc et le début de la pandémie mondiale de la COVID-19. Malgré ces perturbations, la fin du mandat a été marquée par une progression notable, avec un taux d'accomplissement des promesses qui s'est élevé jusqu’à 51 %, se rapprochant ainsi des performances observées pendant les mandats de Higgs et de Marois.
+
+Le mandat de 2021 à aujourd'hui démontre une tendance initiale similaire à celle des mandats précédents de Higgs et de Marois, avec une croissance stable des promesses réalisées. Cependant, entre le 250e et le 300e jour, cette progression a légèrement ralenti. Néanmoins, entre le 400e et le 500e jour, un rattrapage significatif a été observé, et le mandat a non seulement comblé le retard mais a également surpassé les autres, atteignant un taux de 80 % de promesses tenues en partie ou en voie.
+
+Le déclenchement de la guerre en Ukraine pourrait laisser supposer un impact sur la gestion du mandat, mais les données indiquent une augmentation drastique de l'accomplissement des promesses peu de temps après cet événement.
+-->
+
+# Conclusion
+
+----
+
+Liberal--NDP Agreement: more stability
+
+still some crises (inflation, housing, Ukraine, Israel) but still 50.1% promises kept or partially kept => relatively high by historical standards
+<!--
+moins rapide que Trudeau I: 84,4% réalisées (56,4% vs 32%) ou partiellement (24,4% vs 18,1%) ou en voie (3,7% vs 30%), à ce moment du mandat. 5% vs 3,4% rompues
+
+moins rapide que Harper III: 57,3% réalisées (53,8% vs 32%) ou partiellement ou en voie (3,5% vs 48,1%), à ce moment du mandat. 2,8% vs 3,4% rompues
+-->
+
+## THANK YOU!
