@@ -1,13 +1,16 @@
 ---
-title: "Promettre sans compter?"
-subtitle: "Démêler les 913 promesses des gouvernements minoritaires de Justin Trudeau"
+title: "Promettre sans compter? / Promising without Counting?"
+subtitle: "Démêler les 913 promesses des gouvernements minoritaires de Justin Trudeau / Untangling the 913 Promises of Justin Trudeau's Minority Governments"
 author:
-  - Alexandre Fortier-Chouinard^[University of Toronto]
-  - Hubert Cadieux^[Université Laval]
+  - Alexandre Fortier-Chouinard
+  - Hubert Cadieux
   - Benjamin Carignan
   - Jérémie Drouin
   - Lisa Birch
   - Yannick Dufresne
+institute:
+  - University of Toronto
+  - Université Laval
 format:
   beamer:
     theme: Dresden
@@ -25,6 +28,9 @@ header-includes:
 
 ```{r}
 #| echo: false
-#| out.width: "180pt"
+#| out.width: "275pt"
+#| fig-cap: "Time Trends of Pledge Fulfillment Through Time in Recent Canadian Minority Governments"
 knitr::include_graphics("_SharedFolder_livre_promesses-trudeau/Chapitre 1/graphs/progression_mandats_minoritaires_EN_pres.png")
 ```
+
+# THANK YOU!
