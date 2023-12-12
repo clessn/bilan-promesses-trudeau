@@ -1,7 +1,7 @@
 library(tidyverse)
 
 ## Importation du csv
-dftotal <- read.csv("totalpourcentageallmandat.csv", header = TRUE,
+dftotal <- read.csv("graphtotal.csv", header = TRUE,
                     colClasses = c(Catégories = "character",
                                    Mandat.2.et.3 = "numeric",
                                    Mandat.2 = "numeric",
@@ -23,13 +23,13 @@ pourcentage_palette <- c("#CCCCCC", "#666666", "black")
 ## création du graphique
 
 dftotalgraph <- ggplot(dftotal, aes(x = Catégories, y = Value ,fill = Status)) +
-                        geom_bar(stat = "identity", position = "dodge")  +
+  geom_bar(stat = "identity", position = "dodge")  +
   geom_text(aes(label = paste0(Value, "%")), vjust = -0.5, position = position_dodge(0.9),
             size = 2.5) +
   scale_fill_manual(values = pourcentage_palette) +
-                        labs(title = "Pourcentage de promesses par catégorie d’enjeu par mandat",
-                              x = "Catégories d'enjeux",
-                              y = "Pourcentage de l'ensemble des \n promesses du mandat par catégorie")+
+  labs(title = "Pourcentage de promesses par catégorie d’enjeu par mandat",
+       x = "Catégories d'enjeux",
+       y = "Pourcentage de l'ensemble des \n promesses du mandat par catégorie")+
   clessnverse::theme_clean_light(base_size = 15) +
   theme(
     plot.title = element_text(size = 15, hjust = 0.5), 
@@ -39,10 +39,8 @@ dftotalgraph <- ggplot(dftotal, aes(x = Catégories, y = Value ,fill = Status)) 
     axis.text.x = element_text(angle = 65, hjust=0.9))
 
 ## Impression du ggplot
- print(dftotalgraph)
+print(dftotalgraph)
 
 ## Exportation 
- 
- ggsave("pourcentage_mandat2_3.png", plot = dftotalgraph, width = 12, height = 6)
- 
- 
+
+ggsave("pourcentage_mandat2_3.png", plot = dftotalgraph, width = 12, height = 6)
