@@ -43,4 +43,4 @@ print(dftotalgraph)
 
 ## Exportation 
 
-ggsave("pourcentage_mandat2_3.png", plot = dftotalgraph, width = 12, height = 6)
+ggsave("_SharedFolder_livre_promesses-trudeau/Chapitre 1/graphs/pourcentage_mandat2_3.png", plot = dftotalgraph, width = 12, height = 6)
