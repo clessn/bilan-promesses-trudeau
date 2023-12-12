@@ -33,6 +33,8 @@ knitr::include_graphics("_SharedFolder_livre_promesses-trudeau/Chapitre 1/graphs
 <!--
 Présentation surtout descriptive aujourd'hui, pour établir les bases
 
+beaucoup de promesses 3 derniers mandats. Promesses pour Premières Nations, promesses pour Inuits, promesses pour Métis
+
 % de promesses réalisées par mandat : score le plus élevé = Harper 2011-2015
 
 % de promesses rompues par mandat = le + faible pour Harper
@@ -66,6 +68,19 @@ Il est pertinent de noter trois événements significatifs survenus au début du
 Le mandat de 2021 à aujourd'hui démontre une tendance initiale similaire à celle des mandats précédents de Higgs et de Marois, avec une croissance stable des promesses réalisées. Cependant, entre le 250e et le 300e jour, cette progression a légèrement ralenti. Néanmoins, entre le 400e et le 500e jour, un rattrapage significatif a été observé, et le mandat a non seulement comblé le retard mais a également surpassé les autres, atteignant un taux de 80 % de promesses tenues en partie ou en voie.
 
 Le déclenchement de la guerre en Ukraine pourrait laisser supposer un impact sur la gestion du mandat, mais les données indiquent une augmentation drastique de l'accomplissement des promesses peu de temps après cet événement.
+-->
+
+# Conclusion
+
+----
+
+Liberal--NDP Agreement: more stability
+
+still some crises (inflation, housing, Ukraine, Israel) but still 50.1% promises kept or partially kept => relatively high by historical standards
+<!--
+moins rapide que Trudeau I: 84,4% réalisées (56,4% vs 32%) ou partiellement (24,4% vs 18,1%) ou en voie (3,7% vs 30%), à ce moment du mandat. 5% vs 3,4% rompues
+
+moins rapide que Harper III: 57,3% réalisées (53,8% vs 32%) ou partiellement ou en voie (3,5% vs 48,1%), à ce moment du mandat. 2,8% vs 3,4% rompues
 -->
 
 ## THANK YOU!

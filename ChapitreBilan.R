@@ -50,8 +50,9 @@ bold.labels <- ifelse(levels(as.factor(GraphData$Gouvernement)) %in% c(
 
 ggplot(GraphData, aes(x = reorder(Gouvernement, Année.de.début), y = Pourcent,
                       fill = Verdict)) +
-  #geom_text(aes(label = PourcentText)) +
   geom_bar(stat = "identity", position = "fill") +
+  geom_text(aes(label = PercentText), position = position_fill(vjust = 0.5),
+            size = 2.5) +
   scale_fill_grey("\n\n\n\n\n\n\nVerdict") +
   scale_x_discrete("") +
   scale_y_continuous("% des promesses") +
@@ -60,7 +61,7 @@ ggplot(GraphData, aes(x = reorder(Gouvernement, Année.de.début), y = Pourcent,
         panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
         panel.border = element_blank(), panel.background = element_blank())
 ggsave(paste0("_SharedFolder_livre_promesses-trudeau/Chapitre 1/graphs/",
-              "VerdictsParMandat.png"))
+              "VerdictsParMandat.png"), width = 5.5, height = 4.25)
 
 GraphData$VerdictEN <- NA
 GraphData$VerdictEN <- factor(
