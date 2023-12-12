@@ -82,6 +82,8 @@ mean(nchar(Promises$Libellé.en), na.rm = T)
 mean(nchar(Promises$Libellé.fr), na.rm = T)
 mean(nchar(Promesses$Libellé.EN))
 mean(nchar(Promesses$Libellé.FR))
+GSN <- transform(Promesses, n = nchar(as.character(Libellé.FR)))
+GSN2 <- GSN[with(GSN, order(n, Libellé.FR)), ]
 
 # Tri Trudeau
 AllPromises <- openxlsx::read.xlsx(paste0(

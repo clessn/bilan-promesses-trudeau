@@ -1,0 +1,30 @@
+---
+title: "Promettre sans compter?"
+subtitle: "Démêler les 913 promesses des gouvernements minoritaires de Justin Trudeau"
+author:
+  - Alexandre Fortier-Chouinard^[University of Toronto]
+  - Hubert Cadieux^[Université Laval]
+  - Benjamin Carignan
+  - Jérémie Drouin
+  - Lisa Birch
+  - Yannick Dufresne
+format:
+  beamer:
+    theme: Dresden
+    toc: true
+    incremental: true
+    slide-level: 3
+date: "December 11, 2023"
+date-format: long
+header-includes:
+  - \addtobeamertemplate{navigation symbols}{}{\usebeamerfont{footline}\usebeamercolor[fg]{footline}\hspace{1em}\insertframenumber}
+---
+# Setting
+
+----
+
+```{r}
+#| echo: false
+#| out.width: "180pt"
+knitr::include_graphics("_SharedFolder_livre_promesses-trudeau/Chapitre 1/graphs/progression_mandats_minoritaires_EN_pres.png")
+```
