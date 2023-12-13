@@ -6,9 +6,16 @@ library(tidyverse)
 mois_fr_to_num <- c(janvier = 1, février = 2, mars = 3, avril = 4, mai = 5, juin = 6, 
                     juillet = 7, août = 8, septembre = 9, octobre = 10, novembre = 11, décembre = 12)
 
+
 ## Load Trudeau II et III (only minority governments)
 trudeau <- readxl::read_excel("_SharedFolder_livre_promesses-trudeau/Chapitre 1/PolimètreTrudeau-Chapitre1.xlsx",
                               sheet = "Sources") %>% 
+  mutate(Mandat = as.character(Mandat),
+         Mandat = case_when(
+    Mandat == "1900-01-01" ~ 1,
+    Mandat == "1900-01-02" ~ 2,
+    Mandat == "1900-01-03" ~ 3
+  )) %>% 
   filter(Mandat != 1) %>% 
   mutate(date = as.Date(ifelse(is.na(`Année source`), lubridate::as_date(`Date ajout`), as.Date(NA))),
          mois = ifelse(is.na(`Mois source`), 1, mois_fr_to_num[`Mois source`]),
@@ -78,17 +85,17 @@ data <- rbind(trudeau, higgs, marois) %>%
 
 table(data$verdict, data$mandate_id)
 
-t <- data %>% 
-  filter(mandate_id == "trudeau3") %>% 
-  group_by(pledge_cross_id) %>% 
-  filter(date == max(date)) %>% 
-  mutate(realisee = case_when(
-              verdict %in% c("Partiellement réalisée",
-                    "Réalisée", "En voie de réalisation") ~ 1
-                  ),
-         realisee = ifelse(is.na(realisee), 0, realisee))
-
-table(t$verdict)
+#t <- data %>% 
+#  filter(mandate_id == "trudeau3") %>% 
+#  group_by(pledge_cross_id) %>% 
+#  filter(date == max(date)) %>% 
+#  mutate(realisee = case_when(
+#              verdict %in% c("Partiellement réalisée",
+#                    "Réalisée", "En voie de réalisation") ~ 1
+#                  ),
+#         realisee = ifelse(is.na(realisee), 0, realisee))
+#
+#table(t$verdict)
 
 ggplot(data, aes(x = as.Date(date))) +
   geom_histogram() +
@@ -107,6 +114,7 @@ data <- data %>%
   ),
   realisee = ifelse(is.na(realisee), 0, realisee))
 
+table(data$realisee, data$mandate_id)
 
 # Next step: getting the status of multiple pledges in time ---------------
 
@@ -299,10 +307,10 @@ DatesImportantes <- data.frame(
                          "2020-01-20",
                          "2020-03-11",
                          "2022-02-24")),
-  event = c("Ukrainian civilian plane shot down in Iran",
-            "Start of Indigenous anti-pipeline blockade",
-            "Global pandemic declared by WHO",
-            "Start of the Russian invasion of Ukraine")
+  event = c("Ukrainian civilian plane\nshot down in Iran",
+            "Start of Indigenous\nanti-pipeline blockade",
+            "Global pandemic\ndeclared by WHO",
+            "Start of the Russian\ninvasion of Ukraine")
 ) %>% 
   mutate(label = paste0("\n", format(as.Date(date_limit), "%B %d, %Y"), "\n", event, "\n")) %>% 
   left_join(graph, ., by = "date_limit") %>% 
@@ -319,7 +327,7 @@ plot <- ggplot(graph, aes(x = day_in_mandate, y = prop,
   ggrepel::geom_text_repel(data = DatesImportantes,
                            angle = 90, hjust = 0,
                            aes(label = label),
-                           size = 2.5, nudge_y = 40,
+                           size = 4.75, nudge_y = 58,
                            segment.linetype = 2,
                            force = 25, direction = "x",
                            alpha = 1) +
@@ -334,7 +342,8 @@ plot <- ggplot(graph, aes(x = day_in_mandate, y = prop,
                                    "marois" = "Marois 2012-2014",
                                    "trudeau2" = "Trudeau 2019-2021",
                                    "trudeau3" = "Trudeau 2021-...")) +
-  guides(linetype = guide_legend(nrow = 2)) +
+  guides(linetype = guide_legend(nrow = 2,
+                                 override.aes = list(linewidth = 2.25))) +
   scale_alpha_manual(values = c("higgs" = 0.3,
                                 "marois" = 0.3,
                                 "trudeau2" = 1,
@@ -348,11 +357,26 @@ plot <- ggplot(graph, aes(x = day_in_mandate, y = prop,
   guides(linewidth = "none") +
   ylab("\nProportion of promises kept, partially\nkept, or in progress to date (%)\n") +
   xlab("\nDay in mandate\n") +
-  theme(axis.title.x = element_text(hjust = 0.5, size = 12.5),
-        axis.title.y = element_text(hjust = 0.5, size = 12.5),
+  theme(axis.title.x = element_text(hjust = 0.5, size = 14.5),
+        axis.title.y = element_text(hjust = 0.5, size = 14.5),
         axis.text.x = element_text(size = 11),
-        axis.text.y = element_text(size = 11))
+        axis.text.y = element_text(size = 11),
+        legend.key.height = unit(1.15, "cm"),
+        legend.key.width = unit(3, "cm"),
+        legend.text = element_text(size = 14))
 
 
 ggsave(plot = plot, filename = "_SharedFolder_livre_promesses-trudeau/Chapitre 1/graphs/progression_mandats_minoritaires_EN_pres.png",
        width = 9, height = 6)
+
+
+
+
+# Valid -------------------------------------------------------------------
+
+trudeau2_mars2021 <- output %>%
+  filter(mandate_id == "trudeau2" &
+           date_limit == "2021-03-01")
+
+writexl::write_xlsx(trudeau2_mars2021, "_SharedFolder_livre_promesses-trudeau/Chapitre 1/valid_in_time.xlsx")
+
