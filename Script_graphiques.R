@@ -24,8 +24,8 @@ dftest2$Status <- factor(dftest2$Status,
 
 ## Création de la palette de couleur 
 
-verdict_palette1 <- c("#CCCCCC", "#999999", "#666666", "#333333", "black")
-verdict_palette2 <- c("#999999", "#666666", "black")
+verdict_palette1 <- c("#228B22", "#F3C349", "#FF8C00", "#444444", "#AE0101")
+verdict_palette2 <- c("#228B22", "#F3C349", "#AE0101")
 
 ## graphique du 2eme mandat
 
@@ -56,9 +56,9 @@ graphmandat2 <- dftest2_percent |>
     axis.text = element_text(size = 8),            
     legend.position = "right")
 
+print(graphmandat2)
 ggsave("_SharedFolder_livre_promesses-trudeau/Chapitre 1/graphs/mandat2_plot.png", plot = graphmandat2, width = 12, height = 6
 )
-print(graphmandat2)
 
 
 ## graphique du 3eme mandat
@@ -70,7 +70,7 @@ dftest3_percent <- dftest2 %>%
          Value2 = sum(Value),
          Catégories2 = paste0(Catégories, " N = ", Value2))
 
-dftest3_percent[,1] <- c("Identité et nationalisme", 3, NA, NA, NA, NA, NA)
+#dftest3_percent[,1] <- c("Identité et nationalisme", 3, NA, NA, NA, NA, NA)
 
 graphmandat3 <- dftest3_percent |>
   ggplot(aes(x = Percentage , y = Catégories2 ,fill = Status)) +
@@ -138,9 +138,6 @@ dfcategoverdiENG$Status <- factor(dfcategoverdiENG$Status,
 
 ## Création de la palette de couleur 
 
-verdict_palette1 <- c("#CCCCCC", "#999999", "#666666", "#333333", "black")
-verdict_palette2 <- c("#999999", "#666666", "black")
-
 ## graphique du 2eme mandat
 
 dfcategoverdiENG_percent <- dfcategoverdiENG %>%
@@ -148,17 +145,19 @@ dfcategoverdiENG_percent <- dfcategoverdiENG %>%
   group_by(Categories) %>%
   mutate(Percentage = Value / sum(Value) * 100, 
          Value2 = sum(Value),
-         Categories2 = paste0(Categories, " N = ", Value2))
+         Categories2 = paste0(Categories, " (n = ", Value2, ")"))
 
 graphmandat2ENG <- dfcategoverdiENG_percent |>
-  ggplot(aes(x = Percentage , y = Categories2 ,fill = Status)) +
+  ggplot(aes(x = Percentage, y = reorder(Categories2, desc(Categories2)),
+             fill = Status)) +
   geom_bar(stat = "identity")  +
   geom_text(data = dfcategoverdiENG_percent, 
-            aes(label = round(Percentage)), position = position_stack(vjust = 0.5),
+            aes(label = round(Percentage)),
+            position = position_stack(vjust = 0.5),
             size = 3, color = "white") +
   scale_fill_manual(values = verdict_palette2) +
   labs(
-    title = "Second-term verdicts by issue category",
+    #title = "Second-term verdicts by issue category",
     x = "Percent of promises",
     y = "Issue categories",
     fill = "Legend Title") +
@@ -170,9 +169,9 @@ graphmandat2ENG <- dfcategoverdiENG_percent |>
     axis.text = element_text(size = 8),            
     legend.position = "right")
 
+print(graphmandat2ENG)
 ggsave("_SharedFolder_livre_promesses-trudeau/Chapitre 1/graphs/mandat2ENG_plot.png", plot = graphmandat2ENG, width = 12, height = 6
 )
-print(graphmandat2ENG)
 
 
 ## graphique du 3eme mandat
@@ -181,17 +180,18 @@ dfcategoverdiENG_percent <- dfcategoverdiENG %>%
   group_by(Categories) %>%
   mutate(Percentage = Value / sum(Value) * 100, 
          Value2 = sum(Value),
-         Categories2 = paste0(Categories, " N = ", Value2))
+         Categories2 = paste0(Categories, " (n = ", Value2, ")"))
 
 graphmandat3ENG <- dfcategoverdiENG_percent |>
-  ggplot(aes(x = Percentage , y = Categories2 ,fill = Status)) +
+  ggplot(aes(x = Percentage, y = reorder(Categories2, desc(Categories2)),
+             fill = Status)) +
   geom_bar(stat = "identity")  +
   geom_text(data = dfcategoverdiENG_percent, 
             aes(label = round(Percentage)), position = position_stack(vjust = 0.5),
             size = 3, color = "white") +
   scale_fill_manual(values = verdict_palette1) +
   labs(
-    title = "Third-term verdicts by issue category",
+    #title = "Third-term verdicts by issue category",
     x = "Percent of promises",
     y = "Issue categories",
     fill = "Legend Title") +
@@ -202,8 +202,8 @@ graphmandat3ENG <- dfcategoverdiENG_percent |>
     axis.title.y = element_text(size = 12, hjust = 0.5),
     axis.text = element_text(size = 8),            
     legend.position = "right")
+print(graphmandat3ENG)
 
 ggsave("_SharedFolder_livre_promesses-trudeau/Chapitre 1/graphs/mandat3ENG_plot.png", plot = graphmandat3ENG, width = 12, height = 6
 )
-print(graphmandat3ENG)
 

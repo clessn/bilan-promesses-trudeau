@@ -100,7 +100,7 @@ dftotalgrapheng <- ggplot(dftotaleng, aes(x = Categories, y = Value ,fill = Stat
   geom_text(aes(label = paste0(Value, "%")), vjust = -0.5, position = position_dodge(0.9),
             size = 2.5) +
   scale_fill_manual(values = pourcentage_palette) +
-  labs(title = "Percentage of pledges by issue category by mandate",
+  labs(#title = "Percentage of pledges by issue category by mandate",
        x = "Issue categories",
        y = "Percentage of total mandate promises by category")+
   clessnverse::theme_clean_light(base_size = 15) +

@@ -19,9 +19,14 @@ format:
 date: "December 11, 2023"
 date-format: long
 ---
-# Setting
+# Minority Governments in the Literature
 
 ----
+
+
+<!--
+Présentation surtout descriptive et comparative aujourd'hui, pour établir les bases
+-->
 
 ```{r}
 #| echo: false
@@ -31,8 +36,6 @@ knitr::include_graphics("_SharedFolder_livre_promesses-trudeau/Chapitre 1/graphs
 ```
 
 <!--
-Présentation surtout descriptive aujourd'hui, pour établir les bases
-
 beaucoup de promesses 3 derniers mandats. Promesses pour Premières Nations, promesses pour Inuits, promesses pour Métis
 
 % de promesses réalisées par mandat : score le plus élevé = Harper 2011-2015
@@ -69,6 +72,33 @@ Le mandat de 2021 à aujourd'hui démontre une tendance initiale similaire à ce
 
 Le déclenchement de la guerre en Ukraine pourrait laisser supposer un impact sur la gestion du mandat, mais les données indiquent une augmentation drastique de l'accomplissement des promesses peu de temps après cet événement.
 -->
+
+----
+
+```{r}
+#| echo: false
+#| out.width: "300pt"
+#| fig-cap: "Second-Term Verdicts by Issue Category"
+knitr::include_graphics("_SharedFolder_livre_promesses-trudeau/Chapitre 1/graphs/mandat2ENG_plot.png")
+```
+
+----
+
+```{r}
+#| echo: false
+#| out.width: "300pt"
+#| fig-cap: "Third-Term Verdicts by Issue Category"
+knitr::include_graphics("_SharedFolder_livre_promesses-trudeau/Chapitre 1/graphs/mandat3ENG_plot.png")
+```
+
+----
+
+```{r}
+#| echo: false
+#| out.width: "300pt"
+#| fig-cap: "Percentage of Pledges by Issue Category by Mandate"
+knitr::include_graphics("_SharedFolder_livre_promesses-trudeau/Chapitre 1/graphs/pourcentage_mandat2_3ENG.png")
+```
 
 # Conclusion
 
