@@ -98,17 +98,17 @@ pourcentage_palette <- c("#CCCCCC", "#666666", "black")
 dftotalgrapheng <- ggplot(dftotaleng, aes(x = Categories, y = Value ,fill = Status)) +
   geom_bar(stat = "identity", position = "dodge")  +
   geom_text(aes(label = paste0(Value, "%")), vjust = -0.5, position = position_dodge(0.9),
-            size = 2.5) +
+            size = 3) +
   scale_fill_manual(values = pourcentage_palette) +
   labs(#title = "Percentage of pledges by issue category by mandate",
        x = "Issue categories",
-       y = "Percentage of total mandate promises by category")+
+       y = "Percentage of total mandate\npromises by category")+
   clessnverse::theme_clean_light(base_size = 15) +
   theme(
     plot.title = element_text(size = 15, hjust = 0.5), 
-    axis.title.x = element_text(size = 12, hjust = 0.5),
-    axis.title.y = element_text(size = 10, hjust = 0.7),
-    axis.text = element_text(size = 10),            
+    axis.title.x = element_text(size = 15, hjust = 0.5),
+    axis.title.y = element_text(size = 15, hjust = 0.7),
+    axis.text = element_text(size = 12),            
     axis.text.x = element_text(angle = 65, hjust=0.9))
 
 ## Impression du ggplot

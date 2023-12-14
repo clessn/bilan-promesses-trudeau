@@ -6,7 +6,8 @@ library(openxlsx)
 
 
 
-dfexcelchap1 <- read.xlsx("_SharedFolder_livre_promesses-trudeau/Chapitre 1/PolimètreTrudeau-Chapitre1.xlsx", 3)
+dfexcelchap1 <- read.xlsx("_SharedFolder_livre_promesses-trudeau/Chapitre 1/PolimètreTrudeau-Chapitre1.xlsx", 3) |>
+  filter(Inclusion.Polimètre == TRUE)
 dftest2 <- dfexcelchap1 |>
   group_by(`Catégorie./.Category`, Mandat, Verdict,) |>
   summarise(Value = n())
@@ -40,7 +41,7 @@ graphmandat2 <- dftest2_percent |>
   geom_bar(stat = "identity")  +
   geom_text(data = dftest2_percent, 
             aes(label = round(Percentage)), position = position_stack(vjust = 0.5),
-            size = 3, color = "white") +
+            size = 4, color = "white") +
   scale_fill_manual(values = verdict_palette2) +
   labs(
     title = "Verdicts du second mandat selon les catégories d'enjeux",
@@ -50,9 +51,9 @@ graphmandat2 <- dftest2_percent |>
   clessnverse::theme_clean_light(base_size = 15) +
   theme(
     plot.title = element_text(size = 15, hjust = 0.5), 
-    axis.title.x = element_text(size = 12, hjust = 0.5),
-    axis.title.y = element_text(size = 12, hjust = 0.5),
-    axis.text = element_text(size = 8),            
+    axis.title.x = element_text(size = 15, hjust = 0.5),
+    axis.title.y = element_text(size = 15, hjust = 0.5),
+    axis.text = element_text(size = 12),            
     legend.position = "right")
 
 print(graphmandat2)
@@ -76,7 +77,7 @@ graphmandat3 <- dftest3_percent |>
   geom_bar(stat = "identity")  +
   geom_text(data = dftest3_percent, 
             aes(label = round(Percentage)), position = position_stack(vjust = 0.5),
-            size = 3, color = "white") +
+            size = 4, color = "white") +
   scale_fill_manual(values = verdict_palette1) +
   labs(
     title = "Verdicts du troisième mandat selon les catégories d'enjeux",
@@ -86,9 +87,9 @@ graphmandat3 <- dftest3_percent |>
   clessnverse::theme_clean_light(base_size = 15) +
   theme(
     plot.title = element_text(size = 15, hjust = 0.5), 
-    axis.title.x = element_text(size = 12, hjust = 0.5),
-    axis.title.y = element_text(size = 12, hjust = 0.5),
-    axis.text = element_text(size = 8),            
+    axis.title.x = element_text(size = 15, hjust = 0.5),
+    axis.title.y = element_text(size = 15, hjust = 0.5),
+    axis.text = element_text(size = 12),            
     legend.position = "right")
 print(graphmandat3)
 ggsave("_SharedFolder_livre_promesses-trudeau/Chapitre 1/graphs/mandat3_plot.png", plot = graphmandat3, width = 12, height = 6
@@ -96,7 +97,8 @@ ggsave("_SharedFolder_livre_promesses-trudeau/Chapitre 1/graphs/mandat3_plot.png
 
 ## ANGLAIS
 
-dfexcelchap1 <- read.xlsx("_SharedFolder_livre_promesses-trudeau/Chapitre 1/PolimètreTrudeau-Chapitre1.xlsx", 3)
+dfexcelchap1 <- read.xlsx("_SharedFolder_livre_promesses-trudeau/Chapitre 1/PolimètreTrudeau-Chapitre1.xlsx", 3) |>
+  filter(Inclusion.Polimètre == TRUE)
 dfcategoverdiENG <- dfexcelchap1 |>
   group_by(`Catégorie./.Category`, Mandat, Verdict,) |>
   summarise(Value = n())
@@ -141,8 +143,7 @@ dfcategoverdiENG$Status <- factor(dfcategoverdiENG$Status,
 dfcategoverdiENG_percent <- dfcategoverdiENG %>%
   filter(Term == 2) %>%
   group_by(Categories) %>%
-  mutate(Value2 = sum(Value),
-         Categories2 = paste0(Categories, " (n = ", Value2, ")")) |>
+  mutate(Value2 = sum(Value)) |>
   mutate(Percentage = Value / sum(Value) * 100)
 KeptPartiallyData <- dfcategoverdiENG_percent |>
   filter(Status %in% c("Kept", "Partially kept")) |>
@@ -152,15 +153,22 @@ KeptPartiallyData[12,1] <- "Identity and Nationalism"
 KeptPartiallyData[12,2] <- "2"
 KeptPartiallyData[12,3] <- 0
 KeptPartiallyData <- arrange(KeptPartiallyData, Percentage)
-dfcategoverdiENG_percent$Categories <- factor(
-  dfcategoverdiENG_percent$Categories, levels = KeptPartiallyData$Categories)
+KeptPartiallyData$id <- 1:nrow(KeptPartiallyData)
+dfcategoverdiENG_percent$id <- mgsub::mgsub(
+  string = dfcategoverdiENG_percent$Categories,
+  pattern = KeptPartiallyData$Categories,
+  replacement = KeptPartiallyData$id)
+dfcategoverdiENG_percent$Categories2 <- paste0(
+  dfcategoverdiENG_percent$Categories, " (n = ",
+  dfcategoverdiENG_percent$Value2, ")")
 graphmandat2ENG <- dfcategoverdiENG_percent |>
-  ggplot(aes(x = Percentage, y = Categories, fill = Status)) +
+  ggplot(aes(x = Percentage, y = reorder(Categories2, as.numeric(id)),
+             fill = Status)) +
   geom_bar(stat = "identity")  +
   geom_text(data = dfcategoverdiENG_percent, 
             aes(label = round(Percentage)),
             position = position_stack(vjust = 0.5),
-            size = 3, color = "white") +
+            size = 4, color = "white") +
   scale_fill_manual(values = verdict_palette2) +
   labs(
     #title = "Second-term verdicts by issue category",
@@ -170,9 +178,9 @@ graphmandat2ENG <- dfcategoverdiENG_percent |>
   clessnverse::theme_clean_light(base_size = 15) +
   theme(
     plot.title = element_text(size = 15, hjust = 0.5), 
-    axis.title.x = element_text(size = 12, hjust = 0.5),
-    axis.title.y = element_text(size = 12, hjust = 0.5),
-    axis.text = element_text(size = 8),            
+    axis.title.x = element_text(size = 15, hjust = 0.5),
+    axis.title.y = element_text(size = 15, hjust = 0.5),
+    axis.text = element_text(size = 12),            
     legend.position = "right")
 
 print(graphmandat2ENG)
@@ -184,23 +192,28 @@ ggsave("_SharedFolder_livre_promesses-trudeau/Chapitre 1/graphs/mandat2ENG_plot.
 dfcategoverdiENG_percent <- dfcategoverdiENG %>%
   filter(Term == 3) %>%
   group_by(Categories) %>%
-  mutate(Value2 = sum(Value),
-         Categories2 = paste0(Categories, " (n = ", Value2, ")")) |>
+  mutate(Value2 = sum(Value)) |>
   mutate(Percentage = Value / sum(Value) * 100)
-
 KeptPartiallyData <- dfcategoverdiENG_percent |>
   filter(Status %in% c("Kept", "Partially kept")) |>
   group_by(Categories, Term) |>
   summarise(Percentage = sum(Percentage)) |>
   arrange(Percentage)
-dfcategoverdiENG_percent$Categories <- factor(
-  dfcategoverdiENG_percent$Categories, levels = KeptPartiallyData$Categories)
+KeptPartiallyData$id <- 1:nrow(KeptPartiallyData)
+dfcategoverdiENG_percent$id <- mgsub::mgsub(
+  string = dfcategoverdiENG_percent$Categories,
+  pattern = KeptPartiallyData$Categories,
+  replacement = KeptPartiallyData$id)
+dfcategoverdiENG_percent$Categories2 <- paste0(
+  dfcategoverdiENG_percent$Categories, " (n = ",
+  dfcategoverdiENG_percent$Value2, ")")
 graphmandat3ENG <- dfcategoverdiENG_percent |>
-  ggplot(aes(x = Percentage, y = Categories, fill = Status)) +
+  ggplot(aes(x = Percentage, y = reorder(Categories2, as.numeric(id)),
+             fill = Status)) +
   geom_bar(stat = "identity")  +
   geom_text(data = dfcategoverdiENG_percent, 
             aes(label = round(Percentage)), position = position_stack(vjust = 0.5),
-            size = 3, color = "white") +
+            size = 4, color = "white") +
   scale_fill_manual(values = verdict_palette1) +
   labs(
     #title = "Third-term verdicts by issue category",
@@ -210,9 +223,9 @@ graphmandat3ENG <- dfcategoverdiENG_percent |>
   clessnverse::theme_clean_light(base_size = 15) +
   theme(
     plot.title = element_text(size = 15, hjust = 0.5), 
-    axis.title.x = element_text(size = 12, hjust = 0.5),
-    axis.title.y = element_text(size = 12, hjust = 0.5),
-    axis.text = element_text(size = 8),            
+    axis.title.x = element_text(size = 15, hjust = 0.5),
+    axis.title.y = element_text(size = 15, hjust = 0.5),
+    axis.text = element_text(size = 12),            
     legend.position = "right")
 print(graphmandat3ENG)
 
