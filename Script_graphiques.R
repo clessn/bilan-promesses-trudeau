@@ -3,7 +3,6 @@
 ##
 library(tidyverse)
 library(openxlsx)
-library(dplyr)
 
 
 
@@ -32,9 +31,9 @@ verdict_palette2 <- c("#228B22", "#F3C349", "#AE0101")
 dftest2_percent <- dftest2 %>%
   filter(Mandat == 2) %>%
   group_by(Catégories) %>%
-  mutate(Percentage = Value / sum(Value) * 100, 
-         Value2 = sum(Value),
-         Catégories2 = paste0(Catégories, " N = ", Value2))
+  mutate(Value2 = sum(Value),
+         Catégories2 = paste0(Catégories, " (n = ", Value2, ")")) |>
+  mutate(Percentage = Value / sum(Value) * 100)
 
 graphmandat2 <- dftest2_percent |>
   ggplot(aes(x = Percentage , y = Catégories2 ,fill = Status)) +
@@ -66,9 +65,9 @@ ggsave("_SharedFolder_livre_promesses-trudeau/Chapitre 1/graphs/mandat2_plot.png
 dftest3_percent <- dftest2 %>%
   filter(Mandat == 3) %>%
   group_by(Catégories) %>%
-  mutate(Percentage = Value / sum(Value) * 100, 
-         Value2 = sum(Value),
-         Catégories2 = paste0(Catégories, " N = ", Value2))
+  mutate(Value2 = sum(Value),
+         Catégories2 = paste0(Catégories, " (n = ", Value2, ")")) |>
+  mutate(Percentage = Value / sum(Value) * 100)
 
 #dftest3_percent[,1] <- c("Identité et nationalisme", 3, NA, NA, NA, NA, NA)
 
@@ -91,10 +90,9 @@ graphmandat3 <- dftest3_percent |>
     axis.title.y = element_text(size = 12, hjust = 0.5),
     axis.text = element_text(size = 8),            
     legend.position = "right")
-
+print(graphmandat3)
 ggsave("_SharedFolder_livre_promesses-trudeau/Chapitre 1/graphs/mandat3_plot.png", plot = graphmandat3, width = 12, height = 6
 )
-print(graphmandat3)
 
 ## ANGLAIS
 
@@ -143,13 +141,21 @@ dfcategoverdiENG$Status <- factor(dfcategoverdiENG$Status,
 dfcategoverdiENG_percent <- dfcategoverdiENG %>%
   filter(Term == 2) %>%
   group_by(Categories) %>%
-  mutate(Percentage = Value / sum(Value) * 100, 
-         Value2 = sum(Value),
-         Categories2 = paste0(Categories, " (n = ", Value2, ")"))
-
+  mutate(Value2 = sum(Value),
+         Categories2 = paste0(Categories, " (n = ", Value2, ")")) |>
+  mutate(Percentage = Value / sum(Value) * 100)
+KeptPartiallyData <- dfcategoverdiENG_percent |>
+  filter(Status %in% c("Kept", "Partially kept")) |>
+  group_by(Categories, Term) |>
+  summarise(Percentage = sum(Percentage))
+KeptPartiallyData[12,1] <- "Identity and Nationalism"
+KeptPartiallyData[12,2] <- "2"
+KeptPartiallyData[12,3] <- 0
+KeptPartiallyData <- arrange(KeptPartiallyData, Percentage)
+dfcategoverdiENG_percent$Categories <- factor(
+  dfcategoverdiENG_percent$Categories, levels = KeptPartiallyData$Categories)
 graphmandat2ENG <- dfcategoverdiENG_percent |>
-  ggplot(aes(x = Percentage, y = reorder(Categories2, desc(Categories2)),
-             fill = Status)) +
+  ggplot(aes(x = Percentage, y = Categories, fill = Status)) +
   geom_bar(stat = "identity")  +
   geom_text(data = dfcategoverdiENG_percent, 
             aes(label = round(Percentage)),
@@ -178,13 +184,19 @@ ggsave("_SharedFolder_livre_promesses-trudeau/Chapitre 1/graphs/mandat2ENG_plot.
 dfcategoverdiENG_percent <- dfcategoverdiENG %>%
   filter(Term == 3) %>%
   group_by(Categories) %>%
-  mutate(Percentage = Value / sum(Value) * 100, 
-         Value2 = sum(Value),
-         Categories2 = paste0(Categories, " (n = ", Value2, ")"))
+  mutate(Value2 = sum(Value),
+         Categories2 = paste0(Categories, " (n = ", Value2, ")")) |>
+  mutate(Percentage = Value / sum(Value) * 100)
 
+KeptPartiallyData <- dfcategoverdiENG_percent |>
+  filter(Status %in% c("Kept", "Partially kept")) |>
+  group_by(Categories, Term) |>
+  summarise(Percentage = sum(Percentage)) |>
+  arrange(Percentage)
+dfcategoverdiENG_percent$Categories <- factor(
+  dfcategoverdiENG_percent$Categories, levels = KeptPartiallyData$Categories)
 graphmandat3ENG <- dfcategoverdiENG_percent |>
-  ggplot(aes(x = Percentage, y = reorder(Categories2, desc(Categories2)),
-             fill = Status)) +
+  ggplot(aes(x = Percentage, y = Categories, fill = Status)) +
   geom_bar(stat = "identity")  +
   geom_text(data = dfcategoverdiENG_percent, 
             aes(label = round(Percentage)), position = position_stack(vjust = 0.5),

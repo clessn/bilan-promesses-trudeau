@@ -23,37 +23,31 @@ date-format: long
 
 ----
 
+Pledge fulfillment in single-party majority vs. minority governments
+
+- Single-party minority governments tend to keep similar proportions of promises as single-party majority governments<!-- for the same time frame-->
+
+- Reasons why they fulfill many pledges
+
+  1. The electoral platform as a contract
+
+  2. Pressure from opposition parties
+
+  3. Defending their performance in case of early election
+
+----
+
+- Reasons why they do not fulfill all pledges
+
+  1. Some promises cannot be fulfilled
+
+  2. Exogenous shocks
 
 <!--
 Présentation surtout descriptive et comparative aujourd'hui, pour établir les bases
 -->
 
-```{r}
-#| echo: false
-#| out.width: "300pt"
-#| fig-cap: "Federal Governments' Pledge Fulfillment by Mandate"
-knitr::include_graphics("_SharedFolder_livre_promesses-trudeau/Chapitre 1/graphs/VerdictsParMandat-EN.png")
-```
-
-<!--
-beaucoup de promesses 3 derniers mandats. Promesses pour Premières Nations, promesses pour Inuits, promesses pour Métis
-
-% de promesses réalisées par mandat : score le plus élevé = Harper 2011-2015
-
-% de promesses rompues par mandat = le + faible pour Harper
-
-score + faible pour Trudeau
-
-Excluant le mandat actuel, depuis 1993, pour le mandat moyen, 55,8 % des promesses ont été réalisées, 13,8 % ont été partiellement réalisées et 30,3 % ont été rompues
-
-Les gouvernements canadiens tendent donc à réaliser davantage de promesses que celles qu’ils rompent
-
-Les gouvernements minoritaires semblent également réaliser moins de promesses que les gouvernements majoritaires (Chrétien exception)
-
-Beaucoup de promesses partiellement réalisées. Promesses au moins 2 fois + longues. Beaucoup de mentions de collaboration avec provinces et peuples autochtones
-
-
--->
+# Trudeau Minority Governments in Comparison
 
 ----
 
@@ -64,14 +58,57 @@ Beaucoup de promesses partiellement réalisées. Promesses au moins 2 fois + lon
 knitr::include_graphics("_SharedFolder_livre_promesses-trudeau/Chapitre 1/graphs/progression_mandats_minoritaires_EN_pres.png")
 ```
 <!--
-Durant le mandat de 2019-2021, le taux de réalisation des promesses électorales et a été relativement faible comparativement aux autres mandats minoritaires étudiés. Le mandat a connu un démarrage particulièrement lent, la proportion des promesses tenues plafonnant à 6 % pendant la majorité des 500 premiers jours. Cette stagnation a été suivie d'une hausse modeste au 501e jour, où le taux a grimpé à 15 %, indiquant une accélération dans l'accomplissement des engagements en raison du dépôt du Budget 2021-2022.
+Durant le mandat de 2019-2021, le taux de réalisation des promesses électorales et a été relativement faible comparativement aux autres mandats minoritaires étudiés
 
-Il est pertinent de noter trois événements significatifs survenus au début du mandat, chacun ayant potentiellement influencé la capacité du gouvernement à honorer ses promesses : l'avion civil ukrainien abattu en Iran, les blocus autochtones anti-gazoduc et le début de la pandémie mondiale de la COVID-19. Malgré ces perturbations, la fin du mandat a été marquée par une progression notable, avec un taux d'accomplissement des promesses qui s'est élevé jusqu’à 51 %, se rapprochant ainsi des performances observées pendant les mandats de Higgs et de Marois.
+Le mandat a connu un démarrage particulièrement lent
 
-Le mandat de 2021 à aujourd'hui démontre une tendance initiale similaire à celle des mandats précédents de Higgs et de Marois, avec une croissance stable des promesses réalisées. Cependant, entre le 250e et le 300e jour, cette progression a légèrement ralenti. Néanmoins, entre le 400e et le 500e jour, un rattrapage significatif a été observé, et le mandat a non seulement comblé le retard mais a également surpassé les autres, atteignant un taux de 80 % de promesses tenues en partie ou en voie.
+accélération dans l'accomplissement des engagements en raison du dépôt du Budget 2021-2022
 
-Le déclenchement de la guerre en Ukraine pourrait laisser supposer un impact sur la gestion du mandat, mais les données indiquent une augmentation drastique de l'accomplissement des promesses peu de temps après cet événement.
+Il est pertinent de noter trois événements significatifs survenus au début du mandat, chacun ayant potentiellement influencé la capacité du gouvernement à honorer ses promesses : l'avion civil ukrainien abattu en Iran, les blocus autochtones anti-gazoduc et le début de la pandémie mondiale de la COVID-19
+
+Malgré ces perturbations, la fin du mandat a été marquée par une progression notable, avec un taux d'accomplissement des promesses qui s'est élevé jusqu’à 51 %, se rapprochant ainsi des performances observées pendant les mandats de Higgs et de Marois (mais inférieures à l'habitude)
+
+Le mandat de 2021 à aujourd'hui démontre une tendance initiale similaire à celle des mandats précédents de Higgs et de Marois, avec une croissance stable des promesses réalisées. Cependant, entre le 250e et le 300e jour, cette progression a légèrement ralenti. Néanmoins, entre le 400e et le 500e jour, un rattrapage significatif a été observé, et le mandat a non seulement comblé le retard mais a également surpassé les autres, atteignant un taux de 80 % de promesses tenues en partie ou en voie
+
+Le déclenchement de la guerre en Ukraine pourrait laisser supposer un impact sur la gestion du mandat, mais les données indiquent une augmentation drastique de l'accomplissement des promesses peu de temps après cet événement
 -->
+
+----
+
+```{r}
+#| echo: false
+#| out.width: "300pt"
+#| fig-cap: "Federal Governments' Pledge Fulfillment by Mandate"
+knitr::include_graphics("_SharedFolder_livre_promesses-trudeau/Chapitre 1/graphs/VerdictsParMandat-EN.png")
+```
+<!--
+beaucoup de promesses 3 derniers mandats. 570 au départ avant tri. Promesses pour Premières Nations, promesses pour Inuits, promesses pour Métis
+
+Excluant le mandat actuel, depuis 1993, pour le mandat moyen, 55,8 % des promesses ont été réalisées, 13,8 % ont été partiellement réalisées et 30,3 % ont été rompues
+
+Les gouvernements canadiens tendent donc à réaliser davantage de promesses que celles qu’ils rompent, et un peu plus que d'autres pays (68 % Canada selon Thomson et al. 2017)
+
+Les gouvernements minoritaires canadiens semblent également réaliser moins de promesses que les gouvernements majoritaires (Chrétien exception). Sans doute en bonne partie à cause de leur durée
+
+% de promesses réalisées par mandat : score le plus élevé = Harper 2011-2015. % de promesses rompues par mandat = le + faible pour Trudeau I
+
+Beaucoup de promesses partiellement réalisées. Promesses au moins 2 fois + longues, avec beaucoup de clauses. Beaucoup de mentions de collaboration avec provinces et peuples autochtones
+
+Exemple : CELIAPP: 3.06.29 - « Permettre aux Canadiens âgés de moins de 40 ans d’ouvrir un Régime enregistré d’épargne-propriété (REEP) d’au plus 40 000 $. Les cotisations versées dans ce régime sont comptabilisées au titre de la limite des cotisations au REER d’une personne et sont déduites de son revenu. Les fonds peuvent aussi être transférés d’un REER personnel. Tous les fonds versés dans le REEP peuvent être retirés en franchise d’impôt pour acheter une première propriété et n’ont pas à être remboursés. Au moins 50 % des fonds retirés du REEP devront être investis pour au moins quatre ans, et aucun fonds ne pourra être retiré dans l’année suivant celle où ils ont été versés. Le REEP entrera en vigueur en juillet 2022. »
+
+(1 création de programme, 2 détails du programme, 3 date d'entrée en vigueur... Parfois aussi financement + création de programme)
+-->
+
+# Pledges by Issue Category
+
+----
+
+```{r}
+#| echo: false
+#| out.width: "300pt"
+#| fig-cap: "Percentage of Pledges by Issue Category by Mandate"
+knitr::include_graphics("_SharedFolder_livre_promesses-trudeau/Chapitre 1/graphs/pourcentage_mandat2_3ENG.png")
+```
 
 ----
 
@@ -91,26 +128,22 @@ knitr::include_graphics("_SharedFolder_livre_promesses-trudeau/Chapitre 1/graphs
 knitr::include_graphics("_SharedFolder_livre_promesses-trudeau/Chapitre 1/graphs/mandat3ENG_plot.png")
 ```
 
-----
-
-```{r}
-#| echo: false
-#| out.width: "300pt"
-#| fig-cap: "Percentage of Pledges by Issue Category by Mandate"
-knitr::include_graphics("_SharedFolder_livre_promesses-trudeau/Chapitre 1/graphs/pourcentage_mandat2_3ENG.png")
-```
-
 # Conclusion
 
 ----
 
-Liberal--NDP Agreement: more stability
+- Mandate 2: several exogenous shocks & short mandate -> 48% broken pledges, 23% fully kept
 
-still some crises (inflation, housing, Ukraine, Israel) but still 50.1% promises kept or partially kept => relatively high by historical standards
+- Mandate 3: Liberal--NDP Agreement, more stability despite crises
+  - Already 80% promises kept, partially kept or in progress
+  - Relatively high by historical standards for minority governments
+
 <!--
-moins rapide que Trudeau I: 84,4% réalisées (56,4% vs 32%) ou partiellement (24,4% vs 18,1%) ou en voie (3,7% vs 30%), à ce moment du mandat. 5% vs 3,4% rompues
+inflation, logement, Ukraine, Israel
 
-moins rapide que Harper III: 57,3% réalisées (53,8% vs 32%) ou partiellement ou en voie (3,5% vs 48,1%), à ce moment du mandat. 2,8% vs 3,4% rompues
+moins rapide que Trudeau I: 84,4% vs 80,2 réalisées (56,4% vs 32%) ou partiellement (24,4% vs 18,1%) ou en voie (3,7% vs 30%), à ce moment du mandat. 5% vs 3,4% rompues
+
+moins rapide que Harper III: 57,3% vs 80,2 réalisées (53,8% vs 32%) ou partiellement ou en voie (3,5% vs 48,1%), à ce moment du mandat. 2,8% vs 3,4% rompues
 -->
 
 ## THANK YOU!

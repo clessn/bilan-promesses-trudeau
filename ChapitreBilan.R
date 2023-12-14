@@ -25,20 +25,25 @@ Data$PourcentPartiellementRéalisées <- 100 * Data$Partiellement.réalisée /
 Data$PourcentRompues <- 100 * Data$Rompue / Data$n
 Data$PourcentAutre <- 100 * (
   Data$n - Data$Réalisée - Data$Partiellement.réalisée - Data$Rompue) / Data$n
+Data$PourcentSuspens <- NA
+Data$PourcentEnVoie <- NA
+Data$PourcentSuspens[1] <- 100 * (58 / 353)
+Data$PourcentEnVoie[1] <- 100 * (106 / 353)
 DataFull <- filter(Data, Législature < 44)
 mean(DataFull$PourcentRéalisées)
 mean(DataFull$PourcentPartiellementRéalisées)
 mean(DataFull$PourcentRompues)
 GraphData <- pivot_longer(
   Data, cols = c(PourcentRéalisées, PourcentPartiellementRéalisées,
-                 PourcentRompues, PourcentAutre),
+                 PourcentRompues, PourcentSuspens, PourcentEnVoie),
   names_to = "Verdict", values_to = "Pourcent")
 GraphData$Verdict <- factor(
   GraphData$Verdict,
   levels = c("PourcentRéalisées", "PourcentPartiellementRéalisées",
-             "PourcentAutre", "PourcentRompues"),
+             "PourcentEnVoie", "PourcentSuspens", "PourcentRompues"),
   labels = c("Réalisées", "Partiellement\nréalisées",
-             "En suspens/\nEn voie de\nréalisation\n(Trudeau 44)", "Rompues"))
+             "En voie de\nréalisation\n(Trudeau 44)",
+             "En suspens\n(Trudeau 44)", "Rompues"))
 GraphData$PourcentText <- str_replace_all(
   round(GraphData$Pourcent, 2), "\\.", ",")
 GraphData$PercentText <- round(GraphData$Pourcent, 2)
@@ -67,16 +72,17 @@ GraphData$VerdictEN <- NA
 GraphData$VerdictEN <- factor(
   GraphData$Verdict,
   levels = c("Réalisées", "Partiellement\nréalisées",
-             "En suspens/\nEn voie de\nréalisation\n(Trudeau 44)", "Rompues"),
-  labels = c("Kept", "Partially kept",
-             "Not yet rated/\nIn the works\n(Trudeau 44)", "Broken"))
+             "En voie de\nréalisation\n(Trudeau 44)",
+             "En suspens\n(Trudeau 44)", "Rompues"),
+  labels = c("Kept", "Partially kept", "In the works\n(Trudeau 44)",
+             "Not yet rated\n(Trudeau 44)", "Broken"))
 ggplot(GraphData, aes(x = reorder(Gouvernement, Année.de.début),
                       y = Pourcent, fill = VerdictEN)) +
   geom_bar(stat = "identity", position = "fill") +
   geom_text(aes(label = PercentText), position = position_fill(vjust = 0.5),
-            size = 2.5) +
+            size = 2.5, color = "white") +
   scale_fill_manual("\n\n\n\n\n\n\nVerdict", values = c(
-    "#228B22", "#F3C349", "#FF8C00", "#AE0101")) +
+    "#228B22", "#F3C349", "#FF8C00", "#444444", "#AE0101")) +
   scale_x_discrete("") +
   scale_y_continuous("% of promises\n",
                      labels = scales::percent_format(scale = 100)) +
