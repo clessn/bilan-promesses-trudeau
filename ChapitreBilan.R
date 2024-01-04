@@ -1,4 +1,4 @@
-library(tidyverse)
+pacman::p_load(tidyverse, openxlsx, stringdist, gridExtra, ggtext)
 Data <- openxlsx::read.xlsx(paste0(
   "../polimetre-dev/_SharedFolder_polimetre-fonctionnement/",
   "14. BD/BD_Polimètre.xlsx"), 2) |>
@@ -61,8 +61,8 @@ ggplot(GraphData, aes(x = reorder(Gouvernement, Année.de.début), y = Pourcent,
   scale_fill_grey("\n\n\n\n\n\n\nVerdict") +
   scale_x_discrete("") +
   scale_y_continuous("% des promesses") +
-  theme(axis.text.x = element_text(hjust = 1, vjust = 0.5, angle = 90,
-                                   face = bold.labels),
+  theme(axis.text.x = ggtext::element_markdown(hjust = 1, vjust = 0.5, angle = 90,
+                                               face = bold.labels),
         panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
         panel.border = element_blank(), panel.background = element_blank())
 ggsave(paste0("_SharedFolder_livre_promesses-trudeau/Chapitre 1/graphs/",
@@ -86,8 +86,8 @@ ggplot(GraphData, aes(x = reorder(Gouvernement, Année.de.début),
   scale_x_discrete("") +
   scale_y_continuous("% of promises\n",
                      labels = scales::percent_format(scale = 100)) +
-  theme(axis.text.x = element_text(hjust = 1, vjust = 0.5, angle = 90,
-                                   face = bold.labels),
+  theme(axis.text.x = ggtext::element_markdown(hjust = 1, vjust = 0.5, angle = 90,
+                                               face = bold.labels),
         panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
         panel.border = element_blank(), panel.background = element_blank())
 ggsave(paste0("_SharedFolder_livre_promesses-trudeau/Chapitre 1/graphs/",
@@ -113,16 +113,40 @@ mean(nchar(Promises$Libellé.en)[Promises$L == 40])
 mean(nchar(Promises$Libellé.fr)[Promises$L == 40])
 mean(nchar(Promises$Libellé.en)[Promises$L == 41])
 mean(nchar(Promises$Libellé.fr)[Promises$L == 41])
-mean(nchar(Promesses$Libellé.EN)[Promesses$Mandat == 1])
-mean(nchar(Promesses$Libellé.FR)[Promesses$Mandat == 1])
-mean(nchar(Promesses$Libellé.EN)[Promesses$Mandat == 2])
-mean(nchar(Promesses$Libellé.FR)[Promesses$Mandat == 2])
-mean(nchar(Promesses$Libellé.EN)[Promesses$Mandat == 3])
-mean(nchar(Promesses$Libellé.FR)[Promesses$Mandat == 3])
+mean(nchar(Promesses$`Libellé.EN./.Label.EN`)[
+  Promesses$`Mandat./.Mandate` == 1])
+mean(nchar(Promesses$`Libellé.FR./.Label.FR`)[
+  Promesses$`Mandat./.Mandate` == 1])
+mean(nchar(Promesses$`Libellé.EN./.Label.EN`)[
+  Promesses$`Mandat./.Mandate` == 2])
+mean(nchar(Promesses$`Libellé.FR./.Label.FR`)[
+  Promesses$`Mandat./.Mandate` == 2])
+mean(nchar(Promesses$`Libellé.EN./.Label.EN`)[
+  Promesses$`Mandat./.Mandate` == 3])
+mean(nchar(Promesses$`Libellé.FR./.Label.FR`)[
+  Promesses$`Mandat./.Mandate` == 3])
 mean(nchar(Promises$Libellé.en), na.rm = T)
 mean(nchar(Promises$Libellé.fr), na.rm = T)
-mean(nchar(Promesses$Libellé.EN))
-mean(nchar(Promesses$Libellé.FR))
+mean(nchar(Promesses$`Libellé.EN./.Label.EN`))
+mean(nchar(Promesses$`Libellé.FR./.Label.FR`))
+libelle <- tolower(Promesses$`Libellé.FR./.Label.FR`)
+Promesses$autochtone <- str_detect(
+  string = libelle,
+  pattern = "autochton|premières? nation|inuit|metis|métis|dnudpa")
+table(Promesses$autochtone, Promesses$`Mandat./.Mandate`)
+label <- tolower(Promesses$`Libellé.EN./.Label.EN`)
+Promesses$indigenous <- str_detect(
+  string = label,
+  pattern = "aborigin|indigen|first nation|inuit|métis|metis|undrip")
+table(Promesses$indigenous, Promesses$`Mandat./.Mandate`)
+IndigenousData <- data.frame(
+  en = label[Promesses$indigenous + Promesses$autochtone == 1],
+  fr = libelle[Promesses$indigenous + Promesses$autochtone == 1])
+Promesses$indigautoch[Promesses$indigenous == TRUE |
+                        Promesses$autochtone == TRUE] <- 1
+table(Promesses$indigautoch, Promesses$`Mandat./.Mandate`)
+table(Promesses$indigautoch, Promesses$`Mandat./.Mandate`,
+      Promesses$`Inclusion.Polimètre./.Inclusion.Polimeter`)
 GSN <- transform(Promesses, n = nchar(as.character(Libellé.FR)))
 GSN2 <- GSN[with(GSN, order(n, Libellé.FR)), ]
 
@@ -135,7 +159,7 @@ AllPromises <- openxlsx::read.xlsx(paste0(
 AllPromisesRevised <- openxlsx::read.xlsx(paste0(
   "../polimetre-dev/_SharedFolder_polimetre-fonctionnement/6. Polimètre",
   " Fédéral (Trudeau-44)/PolimètreTrudeau.xlsx"), 2) |>
-  dplyr::filter(Mandat == 3)
+  filter(Mandat == 3)
 matched_rows <- matrix(NA, nrow = nrow(AllPromisesRevised),
                        ncol = nrow(AllPromises))
 for (i in 1:nrow(AllPromisesRevised)) {
@@ -184,12 +208,12 @@ Plots <- gridExtra::grid.arrange(Plot1, Plot2, Plot3, Plot4)
 
 # suppression de promesses, critère écart-type
 PromisesToDeleteSD <- AllPromises |>
-  dplyr::filter(`Large.0-.étroit.10.PONDÉRÉ` <
-                  (mean(`Large.0-.étroit.10.PONDÉRÉ`) -
-                     sd(`Large.0-.étroit.10.PONDÉRÉ`) * 0.5) |
-                  `Importance.pour.la.société.0-10.PONDÉRÉE` < 
-                  (mean(`Importance.pour.la.société.0-10.PONDÉRÉE`) -
-                     sd(`Importance.pour.la.société.0-10.PONDÉRÉE`) * 0.5))
+  filter(`Large.0-.étroit.10.PONDÉRÉ` <
+           (mean(`Large.0-.étroit.10.PONDÉRÉ`) -
+              sd(`Large.0-.étroit.10.PONDÉRÉ`) * 0.5) |
+           `Importance.pour.la.société.0-10.PONDÉRÉE` < 
+           (mean(`Importance.pour.la.société.0-10.PONDÉRÉE`) -
+              sd(`Importance.pour.la.société.0-10.PONDÉRÉE`) * 0.5))
 length(AllPromises$`Libellé.(fr)`) - length(PromisesToDeleteSD$`Libellé.(fr)`)
 PromisesToDeleteByDomainSD <- data.frame(
   all = table(AllPromises$Domaine),
@@ -199,10 +223,10 @@ PromisesToDeleteByDomainSD$prop <- PromisesToDeleteByDomainSD$to_delete.Freq /
 
 # suppression de promesses, critère quantile
 PromisesToDeleteQuantile <- AllPromises |>
-  dplyr::filter(`Large.0-.étroit.10.PONDÉRÉ` <
-                  quantile(`Large.0-.étroit.10.PONDÉRÉ`, 0.25) |
-                  `Importance.pour.la.société.0-10.PONDÉRÉE` < 
-                  quantile(`Importance.pour.la.société.0-10.PONDÉRÉE`, 0.25))
+  filter(`Large.0-.étroit.10.PONDÉRÉ` <
+           quantile(`Large.0-.étroit.10.PONDÉRÉ`, 0.25) |
+           `Importance.pour.la.société.0-10.PONDÉRÉE` < 
+           quantile(`Importance.pour.la.société.0-10.PONDÉRÉE`, 0.25))
 length(AllPromises$`Libellé.(fr)`) -
   length(PromisesToDeleteQuantile$`Libellé.(fr)`)
 PromisesToDeleteByDomainQuantile <- data.frame(
