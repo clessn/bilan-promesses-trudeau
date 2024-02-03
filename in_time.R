@@ -6,16 +6,10 @@ library(tidyverse)
 mois_fr_to_num <- c(janvier = 1, février = 2, mars = 3, avril = 4, mai = 5, juin = 6, 
                     juillet = 7, août = 8, septembre = 9, octobre = 10, novembre = 11, décembre = 12)
 
-
 ## Load Trudeau II et III (only minority governments)
 trudeau <- readxl::read_excel("_SharedFolder_livre_promesses-trudeau/Chapitre 1/PolimètreTrudeau-Chapitre1.xlsx",
                               sheet = "Sources") %>% 
-  mutate(Mandat = as.character(Mandat),
-         Mandat = case_when(
-    Mandat == "1900-01-01" ~ 1,
-    Mandat == "1900-01-02" ~ 2,
-    Mandat == "1900-01-03" ~ 3
-  )) %>% 
+  mutate(Mandat = as.character(Mandat)) %>% 
   filter(Mandat != 1) %>% 
   mutate(date = as.Date(ifelse(is.na(`Année source`), lubridate::as_date(`Date ajout`), as.Date(NA))),
          mois = ifelse(is.na(`Mois source`), 1, mois_fr_to_num[`Mois source`]),
@@ -36,13 +30,16 @@ trudeau <- readxl::read_excel("_SharedFolder_livre_promesses-trudeau/Chapitre 1/
 
 #length(unique(trudeau$pledge_id[trudeau$mandate_id == "trudeau3"]))
 
+t <- readxl::read_excel("_SharedFolder_livre_promesses-trudeau/Chapitre 1/PolimètreTrudeau-Chapitre1.xlsx",
+                   sheet = "Promesses")
+
 #### For trudeau III, need to add pledges with no source as "Rompue"
 trudeauiii_nosources <- pull(readxl::read_excel("_SharedFolder_livre_promesses-trudeau/Chapitre 1/PolimètreTrudeau-Chapitre1.xlsx",
                               sheet = "Promesses") %>% 
-  filter(Mandat == 3 &
-         `Inclusion Polimètre` == TRUE &
-          !(Numéro %in% trudeau$pledge_id[trudeau$mandate_id == "trudeau3"])),
-  Numéro)
+  filter(`Mandat / Mandate` == 3 &
+         `Inclusion Polimètre / Inclusion Polimeter` == TRUE &
+          !(`#` %in% trudeau$pledge_id[trudeau$mandate_id == "trudeau3"])),
+  `#`)
 
 trudeauiii_nosourcesdf <- data.frame(
   mandate_id = "trudeau3",
@@ -127,7 +124,7 @@ get_pledges_status <- function(data, pledges,
     inner_join(pledges_dates, by = "pledge_cross_id",
                relationship = "many-to-many") %>%
     filter(date <= date_limit) %>%
-    group_by(pledge_cross_id) %>%
+    group_by(pledge_cross_id, date_limit) %>%
     filter(date == max(date)) %>% 
     distinct(., .keep_all = TRUE) %>% 
     select(last_verdict_date = date,
@@ -145,17 +142,9 @@ get_pledges_status <- function(data, pledges,
 # Exemple d'utilisation :
 # obtenir_verdicts_optimal(votre_dataframe, vecteur_pledges, vecteur_dates)
 
-get_pledges_status(data,
-     pledges = c("trudeau22.09.10",
-                 "trudeau33.01.39",
-                 "trudeau22.03.04",
-                 "trudeau33.10.37",
-                 "trudeau33.06.14"),
-     dates = c("2021-05-05",
-               "2022-05-05",
-               "2021-08-15",
-               "2022-08-08",
-               "2022-10-12"))
+check <- get_pledges_status(data,
+     pledges = pledges,
+     dates = dates)
 
 
 # Create evolution of pledges verdicts ------------------------------------------
@@ -325,15 +314,15 @@ plot <- ggplot(graph, aes(x = day_in_mandate, y = prop,
   geom_line(linewidth = 0.7) +
   clessnverse::theme_clean_light() +
   ggrepel::geom_text_repel(data = DatesImportantes,
-                           angle = 90, hjust = 0,
+                           angle = 90,
                            aes(label = label),
-                           size = 4.75, nudge_y = 58,
+                           size = 4, nudge_y = 100,
+                           hjust = 1,
                            segment.linetype = 2,
                            force = 25, direction = "x",
                            alpha = 1) +
   geom_point(data = DatesImportantes, size = 0.9,
              alpha = 1) +
-  scale_y_continuous(limits = c(0, 100)) +
   scale_linetype_manual(values = c("higgs" = "dotdash",
                                    "marois" = "dotted",
                                    "trudeau2" = "dashed",
@@ -354,6 +343,7 @@ plot <- ggplot(graph, aes(x = day_in_mandate, y = prop,
                                 "trudeau3" = "Trudeau 2021-...")) +
   scale_linewidth_continuous(range = c(0.7, 1.3)) +
   scale_x_continuous(breaks = c(0, 100, 200, 300, 400, 500, 600)) +
+  scale_y_continuous(limits = c(0, 120), breaks = c(0, 25, 50, 75, 100)) +
   guides(linewidth = "none") +
   ylab("\nProportion of promises kept, partially\nkept, or in progress to date (%)\n") +
   xlab("\nDay in mandate\n") +
