@@ -29,7 +29,7 @@ DatesImportantes <- data.frame(
   date_limit = as.Date(c("2020-03-09")),
   event = c("Pandémie mondiale\ndéclarée par l'OMS")
 ) %>% 
-  mutate(label = paste0(format(as.Date(date_limit), "%d %B %Y"), "\n", event)) %>% 
+  mutate(label = paste0(format(as.Date(date_limit), "%e %B %Y"), "\n", event)) %>% 
   left_join(graph, ., by = "date_limit") %>% 
   tidyr::drop_na(event, label) %>% 
   mutate(mandate_id = factor(mandate_id, levels = names(labels)))
@@ -78,3 +78,8 @@ ggplot(graph, aes(x = day_in_mandate, y = prop,
 
 ggsave("_SharedFolder_livre_promesses-trudeau/Chapitre 1/graphs/progression_mandats_harpertrudeau.png",
        width = 9, height = 6)
+
+
+check <- graph %>% 
+  group_by(mandate_id) %>% 
+  filter(day_in_mandate == max(day_in_mandate))
