@@ -46,8 +46,6 @@ GraphData$Verdict <- factor(
              "En suspens\n(Trudeau 44)", "Rompues"))
 GraphData$PourcentText <- str_replace_all(
   round(GraphData$Pourcent, 2), "\\.", ",")
-GraphData$PercentText <- round(GraphData$Pourcent, 2)
-GraphData$PercentText[GraphData$PercentText == 0] <- NA
 
 bold.labels <- ifelse(levels(as.factor(GraphData$Gouvernement)) %in% c(
   "Trudeau 2015-2019 (n = 353)", "Trudeau 2019-2021 (n = 343)",
@@ -57,16 +55,16 @@ ggplot(GraphData, aes(x = reorder(Gouvernement, Année.de.début), y = Pourcent,
                       fill = Verdict)) +
   geom_bar(stat = "identity", position = "fill") +
   geom_text(aes(label = PercentText), position = position_fill(vjust = 0.5),
-            size = 2.5) +
+            size = 2.5, color = "white") +
   scale_fill_grey("\n\n\n\n\n\n\nVerdict") +
   scale_x_discrete("") +
   scale_y_continuous("% des promesses") +
-  theme(axis.text.x = ggtext::element_markdown(hjust = 1, vjust = 0.5, angle = 90,
+  theme(axis.text.x = ggtext::element_markdown(hjust = 0.75, vjust = 0.75, angle = 45,
                                                face = bold.labels),
         panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
         panel.border = element_blank(), panel.background = element_blank())
 ggsave(paste0("_SharedFolder_livre_promesses-trudeau/Chapitre 1/graphs/",
-              "VerdictsParMandat.png"), width = 5.5, height = 4.25)
+              "VerdictsParMandat.png"), width = 9, height = 6)
 
 GraphData$VerdictEN <- NA
 GraphData$VerdictEN <- factor(
