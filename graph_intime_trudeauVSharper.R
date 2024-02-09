@@ -1,6 +1,7 @@
 # Packages ----------------------------------------------------------------
 library(ggplot2)
 library(dplyr)
+Sys.setlocale("LC_ALL", "fr_CA")
 
 # Data --------------------------------------------------------------------
 Data <- readRDS("_SharedFolder_livre_promesses-trudeau/Chapitre 1/data/output_graph_trudeauharper.rds")
@@ -26,8 +27,8 @@ graph <- Data %>%
 # 9 mars 2020 pour COVID
 # 15 septembre 2008 pour crise économique
 DatesImportantes <- data.frame(
-  date_limit = as.Date(c("2020-03-09")),
-  event = c("Pandémie mondiale\ndéclarée par l'OMS")
+  date_limit = as.Date(c("2020-03-09", "2022-02-22")),
+  event = c("Pandémie mondiale\ndéclarée par l'OMS", "Invasion russe de l'Ukraine")
 ) %>% 
   mutate(label = paste0(format(as.Date(date_limit), "%e %B %Y"), "\n", event)) %>% 
   left_join(graph, ., by = "date_limit") %>% 
@@ -38,8 +39,8 @@ ggplot(graph, aes(x = day_in_mandate, y = prop,
                   group = mandate_id, linetype = mandate_id,
                   color = mandate_id)) +
   geom_text(data = DatesImportantes,
-            angle = 90, hjust = 1,
-            y = 95, vjust = 0.5,
+            angle = c(0, 90), hjust = c(-0.2, 1),
+            y = c(5, 95), vjust = 0.5,
             aes(label = label, x = day_in_mandate - 40),
             size = 3, show.legend = FALSE) +
   geom_curve(data = DatesImportantes,
@@ -48,10 +49,11 @@ ggplot(graph, aes(x = day_in_mandate, y = prop,
              y = 65, linetype = "solid", linewidth = 0.15,
              show.legend = FALSE) +
   geom_line(linewidth = 0.5) +
-  geom_point(data = DatesImportantes, size = 2,
-             alpha = 1, show.legend = FALSE,
+  geom_point(data = DatesImportantes,
              aes(y = prop - 0.5),
+             alpha = 1, show.legend = FALSE,
              shape = 21,
+             size = 2,
              fill = "grey90",
              stroke = 0.5) +
   geom_point(data = DatesImportantes,
@@ -71,7 +73,7 @@ ggplot(graph, aes(x = day_in_mandate, y = prop,
   xlab("Jour dans le mandat") +
   scale_y_continuous(breaks = c(0, 25, 50, 75, 100),
                      limits = c(0, 100)) +
-  labs(caption = "* = gouvernement minoritaire\n** = gouvernement majoritaire\nLa crise financière mondiale de 2008 a commencé entre les deux premiers mandats de Stephen Harper.") +
+  labs(caption = "* = gouvernement minoritaire\n** = gouvernement majoritaire") +
   theme(axis.title.x = element_text(hjust = 0.5),
         axis.title.y = element_text(hjust = 0.5),
         legend.text=ggtext::element_markdown(size=12))
@@ -81,5 +83,7 @@ ggsave("_SharedFolder_livre_promesses-trudeau/Chapitre 1/graphs/progression_mand
 
 
 check <- graph %>% 
-  group_by(mandate_id) %>% 
-  filter(day_in_mandate == max(day_in_mandate))
+  filter(day_in_mandate == min(day_in_mandate))
+as.Date("2023-12-11") - as.Date("2021-11-22")
+graph %>% 
+  filter(day_in_mandate == 749) # date de la dernière MAJ Trudeau
