@@ -51,15 +51,18 @@ GraphData$PercentText <- round(GraphData$Pourcent, 2)
 bold.labels <- ifelse(levels(as.factor(GraphData$Gouvernement)) %in% c(
   "Trudeau 2015-2019 (n = 353)", "Trudeau 2019-2021 (n = 343)",
   "Trudeau 2021-... (n = 353)"), yes = "bold", no = "plain")
+verdict_palette3 <- c("#CCCCCC", "#AAAAAA", "#888888", "#555555", "black")
 
 ggplot(GraphData, aes(x = reorder(Gouvernement, Année.de.début), y = Pourcent,
                       fill = Verdict)) +
   geom_bar(stat = "identity", position = "fill") +
-  geom_text(aes(label = PercentText), position = position_fill(vjust = 0.5),
-            size = 2.5, color = "white") +
-  scale_fill_grey("\n\n\n\n\n\n\nVerdict") +
+  geom_text(aes(label = PourcentText), position = position_fill(vjust = 0.5),
+            size = 5, color = "white") +
+  scale_fill_manual(values = verdict_palette3) +
   scale_x_discrete("") +
-  scale_y_continuous("% des promesses") +
+  scale_y_continuous("% des promesses\n",
+                     labels = scales::percent_format(scale = 100)) +
+  clessnverse::theme_clean_light(base_size = 15) +
   theme(axis.text.x = ggtext::element_markdown(hjust = 0.75, vjust = 0.75, angle = 45,
                                                face = bold.labels),
         panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
@@ -92,9 +95,9 @@ ggplot(GraphData, aes(x = reorder(Gouvernement, Année.de.début),
 ggsave(paste0("_SharedFolder_livre_promesses-trudeau/Chapitre 1/graphs/",
               "VerdictsParMandat-EN.png"), width = 5.5, height = 4.25)
 
-Promesses <- openxlsx::read.xlsx(paste0(
-  "_SharedFolder_livre_promesses-trudeau/Chapitre 1/PolimètreTrudeau-Chapitre",
-  "1.xlsx"), 3)
+Promesses <- openxlsx::read.xlsx(
+  "_SharedFolder_livre_promesses-trudeau/Chapitre 1/BDTrudeau-Chap1.xlsx",
+  3) |> filter(`Inclusion.Polimètre./.Inclusion.Polimeter` == T)
 Promises <- openxlsx::read.xlsx(paste0(
   "../polimetre-dev/_SharedFolder_polimetre-fonctionnement/",
   "14. BD/BD_Polimètre.xlsx"), 3)
@@ -138,8 +141,7 @@ label <- tolower(Promesses$`Libellé.EN./.Label.EN`)
 Promesses$indigenous <- str_detect(
   string = label,
   pattern = "aborigin|indigen|first nation|inuit|métis|metis|undrip")
-prop.table(table(Promesses$indigenous[
-  Promesses$`Inclusion.Polimètre./.Inclusion.Polimeter` == T]))
+prop.table(table(Promesses$indigenous))
 Promises$indigenous <- str_detect(
   string = tolower(Promises$Libellé.en),
   pattern = "aborigin|indigen|first nation|inuit|métis|metis|undrip")
@@ -167,11 +169,12 @@ prop.table(table(Promises$collab, Promises$L), margin = 2)
 IndigenousData <- data.frame(
   en = label[Promesses$indigenous + Promesses$autochtone == 1],
   fr = libelle[Promesses$indigenous + Promesses$autochtone == 1])
+Promesses$indigautoch <- 0
 Promesses$indigautoch[Promesses$indigenous == TRUE |
                         Promesses$autochtone == TRUE] <- 1
 table(Promesses$indigautoch, Promesses$`Mandat./.Mandate`)
-table(Promesses$indigautoch, Promesses$`Mandat./.Mandate`,
-      Promesses$`Inclusion.Polimètre./.Inclusion.Polimeter`)
+PromessesAlt <- filter(Promesses, indigautoch != 1)
+table(Promesses$Nouvelle.catégorie, Promesses$`Mandat./.Mandate`)
 GSN <- transform(Promesses, n = nchar(as.character(`Libellé.FR./.Label.FR`)))
 GSN2 <- GSN[with(GSN, order(n, Libellé.FR...Label.FR)), ]
 Promesses$indigcollab[Promesses$indigenous == TRUE &
