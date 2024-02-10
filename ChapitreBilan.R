@@ -46,6 +46,7 @@ GraphData$Verdict <- factor(
              "En suspens\n(Trudeau 44)", "Rompues"))
 GraphData$PourcentText <- str_replace_all(
   round(GraphData$Pourcent, 2), "\\.", ",")
+GraphData$PercentText <- round(GraphData$Pourcent, 2)
 
 bold.labels <- ifelse(levels(as.factor(GraphData$Gouvernement)) %in% c(
   "Trudeau 2015-2019 (n = 353)", "Trudeau 2019-2021 (n = 343)",
@@ -97,6 +98,7 @@ Promesses <- openxlsx::read.xlsx(paste0(
 Promises <- openxlsx::read.xlsx(paste0(
   "../polimetre-dev/_SharedFolder_polimetre-fonctionnement/",
   "14. BD/BD_Polimètre.xlsx"), 3)
+Promises <- filter(Promises, Origine == "CAN")
 mean(nchar(Promises$Libellé.en)[Promises$L == 35])
 mean(nchar(Promises$Libellé.fr)[Promises$L == 35])
 mean(nchar(Promises$Libellé.en)[Promises$L == 36])
@@ -124,7 +126,7 @@ mean(nchar(Promesses$`Libellé.EN./.Label.EN`)[
 mean(nchar(Promesses$`Libellé.FR./.Label.FR`)[
   Promesses$`Mandat./.Mandate` == 3])
 mean(nchar(Promises$Libellé.en), na.rm = T)
-mean(nchar(Promises$Libellé.fr), na.rm = T)
+mean(nchar(Promises$Libellé.fr[nchar(Promises$Libellé.fr) > 3]), na.rm = T)
 mean(nchar(Promesses$`Libellé.EN./.Label.EN`))
 mean(nchar(Promesses$`Libellé.FR./.Label.FR`))
 libelle <- tolower(Promesses$`Libellé.FR./.Label.FR`)
@@ -136,7 +138,32 @@ label <- tolower(Promesses$`Libellé.EN./.Label.EN`)
 Promesses$indigenous <- str_detect(
   string = label,
   pattern = "aborigin|indigen|first nation|inuit|métis|metis|undrip")
-table(Promesses$indigenous, Promesses$`Mandat./.Mandate`)
+prop.table(table(Promesses$indigenous[
+  Promesses$`Inclusion.Polimètre./.Inclusion.Polimeter` == T]))
+Promises$indigenous <- str_detect(
+  string = tolower(Promises$Libellé.en),
+  pattern = "aborigin|indigen|first nation|inuit|métis|metis|undrip")
+prop.table(table(Promises$indigenous[Promises$L != 42]))
+Promesses$provinc <- str_detect(
+  string = label,
+  pattern = "provinc")
+prop.table(table(Promesses$provinc, Promesses$`Mandat./.Mandate`,
+                 Promesses$`Inclusion.Polimètre./.Inclusion.Polimeter`),
+           margin = 2)
+Promises$provinc <- str_detect(
+  string = tolower(Promises$Libellé.en),
+  pattern = "provinc")
+prop.table(table(Promises$provinc, Promises$L), margin = 2)
+Promesses$collab <- str_detect(
+  string = label,
+  pattern = "work with|consult|collab|coop|co-op")
+prop.table(table(Promesses$collab, Promesses$`Mandat./.Mandate`,
+                 Promesses$`Inclusion.Polimètre./.Inclusion.Polimeter`),
+           margin = 2)
+Promises$collab <- str_detect(
+  string = tolower(Promises$Libellé.en),
+  pattern = "work with|consult|collab|coop|co-op")
+prop.table(table(Promises$collab, Promises$L), margin = 2)
 IndigenousData <- data.frame(
   en = label[Promesses$indigenous + Promesses$autochtone == 1],
   fr = libelle[Promesses$indigenous + Promesses$autochtone == 1])
@@ -145,8 +172,14 @@ Promesses$indigautoch[Promesses$indigenous == TRUE |
 table(Promesses$indigautoch, Promesses$`Mandat./.Mandate`)
 table(Promesses$indigautoch, Promesses$`Mandat./.Mandate`,
       Promesses$`Inclusion.Polimètre./.Inclusion.Polimeter`)
-GSN <- transform(Promesses, n = nchar(as.character(Libellé.FR)))
-GSN2 <- GSN[with(GSN, order(n, Libellé.FR)), ]
+GSN <- transform(Promesses, n = nchar(as.character(`Libellé.FR./.Label.FR`)))
+GSN2 <- GSN[with(GSN, order(n, Libellé.FR...Label.FR)), ]
+Promesses$indigcollab[Promesses$indigenous == TRUE &
+                        Promesses$collab == TRUE] <- 1
+table(Promesses$indigcollab, Promesses$`Mandat./.Mandate`)
+Promises$indigcollab[Promises$indigenous == TRUE &
+                        Promises$collab == TRUE] <- 1
+table(Promises$indigcollab, Promises$L)
 
 # Tri Trudeau
 AllPromises <- openxlsx::read.xlsx(paste0(
