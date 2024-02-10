@@ -1,18 +1,19 @@
 library(tidyverse)
+library(openxlsx)
 
 ## Importation du csv
 
-dfexcelchap1 <- read.xlsx("_SharedFolder_livre_promesses-trudeau/Chapitre 1/PolimètreTrudeau-Chapitre1.xlsx", 3) |>
-  filter(Inclusion.Polimètre == TRUE)
+dfexcelchap1 <- read.xlsx("_SharedFolder_livre_promesses-trudeau/Chapitre 1/BDTrudeau-Chap1.xlsx", 3) |>
+  filter(`Inclusion.Polimètre./.Inclusion.Polimeter` == TRUE)
 
 
 dftest4 <- dfexcelchap1 |>
-  group_by(Catégorie, Mandat) |>
+  group_by(`Catégorie./.Category`, `Mandat./.Mandate`) |>
   summarise(Value = n()) |>
-  filter(Mandat %in% c("2", "3"))
+  filter(`Mandat./.Mandate` %in% c("2", "3"))
 
 dftest5 <- dfexcelchap1 |>
-  group_by(Catégorie) |>
+  group_by(`Catégorie./.Category`) |>
   summarise(Value = n())
 
 colnames(dftest4) <- c("Catégories", "Mandat", "Value" )
