@@ -60,7 +60,7 @@ dfexcelchap1 <- read.xlsx("_SharedFolder_livre_promesses-trudeau/Chapitre 1/BDTr
   filter(`Inclusion.Polimètre./.Inclusion.Polimeter` == TRUE)
 
 dftest41 <- dfexcelchap1 |>
-  group_by(`Catégorie./.Category`, `Mandat./.Mandate`) |>
+  group_by(`Nouvelle.catégorie`, `Mandat./.Mandate`) |>
   summarise(Value = n()) |>
   filter(`Mandat./.Mandate` %in% c("1", "2", "3"))
 
@@ -82,22 +82,20 @@ dfbind_percent <- dftest41 %>%
   group_by(Mandat)  %>%
   mutate(Percentage = Value / sum(Value) * 100)
 
-dftotalgraph <- ggplot(dfbind_percent, aes(x = Catégories, y = Percentage ,fill = Mandat)) +
+dftotalgraph <- ggplot(dfbind_percent, aes(x = Catégories, y = Percentage, fill = Mandat)) +
   geom_bar(stat = "identity", position = "dodge")  +
   geom_text(aes(label = paste0(round(Percentage), "%")), vjust = -0.5,
             position = position_dodge(0.9),
             size = 2.5) +
-  scale_fill_manual(values = pourcentage_palette) +
-  labs(title = "Pourcentage de promesses par catégorie d’enjeu par mandat",
-       x = "Catégories d'enjeux",
-       y = "Pourcentage de l'ensemble des \n promesses du mandat par catégorie")+
+  scale_fill_manual("Mandat", values = pourcentage_palette) +
+  scale_y_continuous(limits = c(0, 30)) +
+  labs(x = "Catégorie d'enjeux",
+       y = "% de promesses\nformulées par catégorie") +
   clessnverse::theme_clean_light(base_size = 15) +
-  theme(
-    plot.title = element_text(size = 15, hjust = 0.5), 
-    axis.title.x = element_text(size = 12, hjust = 0.5),
-    axis.title.y = element_text(size = 10, hjust = 0.7),
-    axis.text = element_text(size = 10),            
-    axis.text.x = element_text(angle = 65, hjust=0.9)) 
+  theme(axis.title.x = element_text(hjust = 0.5, size = 12),
+        axis.title.y = element_text(hjust = 0.7, size = 12),
+        axis.text.x = element_text(angle = 60, hjust = 0.95, size = 12),
+        legend.title = element_text(size = 15))
 
 ## Impression du ggplot
 print(dftotalgraph)
