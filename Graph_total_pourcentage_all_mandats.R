@@ -62,3 +62,63 @@ dftotalgraph <- ggplot(dfbind_percent, aes(x = Catégories, y = Percentage ,fill
  ggsave("pourcentage_mandat2_3.png", plot = dftotalgraph, width = 12, height = 6)
  
  
+ 
+ 
+## VERSION 2 APRÈS MODIFICATIONS (MANDAT 1,2 ET 3 PLUTÔT QUE 2, 3 ET 2 & 3)
+ 
+ dfexcelchap1 <- read.xlsx("_SharedFolder_livre_promesses-trudeau/Chapitre 1/BDTrudeau-Chap1.xlsx", 3) |>
+   filter(`Inclusion.Polimètre./.Inclusion.Polimeter` == TRUE)
+ 
+ dftest41 <- dfexcelchap1 |>
+   group_by(`Catégorie./.Category`, `Mandat./.Mandate`) |>
+   summarise(Value = n()) |>
+   filter(`Mandat./.Mandate` %in% c("1", "2", "3"))
+ 
+ dftest51 <- dfexcelchap1 |>
+   group_by(`Catégorie./.Category`) |>
+   summarise(Value = n())
+ 
+ colnames(dftest41) <- c("Catégories", "Mandat", "Value" )
+ colnames(dftest51) <- c("Catégories", "Value")
+ 
+ dfbind <- rbind(dftest41, dftest51)
+
+ ## Réordonner les colomnes en facteurs, et les réordonner comme souhaité
+ dfbind$Mandat <- as.character(dfbind$Mandat)
+ 
+ dfbind$Mandat <- factor(dfbind$Mandat, levels = c("1", "2", "3"))
+ 
+ ## Palette de couleur
+ 
+ pourcentage_palette <- c("#CCCCCC", "#666666", "black")
+ 
+ ## création du graphique
+ 
+ dfbind_percent <- dfbind %>%
+   group_by(Mandat)  %>%
+   mutate(Percentage = Value / sum(Value) * 100)
+ 
+ dftotalgraph <- ggplot(dfbind_percent, aes(x = Catégories, y = Percentage ,fill = Mandat)) +
+   geom_bar(stat = "identity", position = "dodge")  +
+   geom_text(aes(label = paste0(round(Percentage), "%")), vjust = -0.5,
+             position = position_dodge(0.9),
+             size = 2.5) +
+   scale_fill_manual(values = pourcentage_palette) +
+   labs(title = "Pourcentage de promesses par catégorie d’enjeu par mandat",
+        x = "Catégories d'enjeux",
+        y = "Pourcentage de l'ensemble des \n promesses du mandat par catégorie")+
+   clessnverse::theme_clean_light(base_size = 15) +
+   theme(
+     plot.title = element_text(size = 15, hjust = 0.5), 
+     axis.title.x = element_text(size = 12, hjust = 0.5),
+     axis.title.y = element_text(size = 10, hjust = 0.7),
+     axis.text = element_text(size = 10),            
+     axis.text.x = element_text(angle = 65, hjust=0.9)) 
+ 
+ ## Impression du ggplot
+ print(dftotalgraph)
+ 
+ ## Exportation 
+ 
+ ggsave("pourcentage_mandat_1_2_3.png", plot = dftotalgraph, width = 12, height = 6)
+ 
