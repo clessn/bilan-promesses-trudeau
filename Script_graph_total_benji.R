@@ -27,8 +27,7 @@ dftotalgraph <- ggplot(dftotal, aes(x = Catégories, y = Value ,fill = Status)) 
   geom_text(aes(label = paste0(Value, "%")), vjust = -0.5, position = position_dodge(0.9),
             size = 2.5) +
   scale_fill_manual(values = pourcentage_palette) +
-  labs(title = "Pourcentage de promesses par catégorie d’enjeu par mandat",
-       x = "Catégories d'enjeux",
+  labs(x = "Catégories d'enjeux",
        y = "Pourcentage de l'ensemble des \n promesses du mandat par catégorie")+
   clessnverse::theme_clean_light(base_size = 15) +
   theme(
