@@ -66,6 +66,7 @@ dftest41 <- dfexcelchap1 |>
 
 colnames(dftest41) <- c("Catégories", "Mandat", "Value" )
 
+dftest41$Catégories <- gsub("et ", "\n et ", dftest41$Catégories)
 
 ## Réordonner les colomnes en facteurs, et les réordonner comme souhaité
 dftest41$Mandat <- as.character(dftest41$Mandat)
@@ -85,17 +86,17 @@ dfbind_percent <- dftest41 %>%
 dftotalgraph <- ggplot(dfbind_percent, aes(x = Catégories, y = Percentage, fill = Mandat)) +
   geom_bar(stat = "identity", position = "dodge")  +
   geom_text(aes(label = paste0(round(Percentage), "%")), vjust = -0.5,
-            position = position_dodge(0.9),
+            position = position_dodge(width = 0.9),
             size = 2.5) +
   scale_fill_manual("Mandat", values = pourcentage_palette) +
   scale_y_continuous(limits = c(0, 30)) +
   labs(x = "Catégorie d'enjeux",
        y = "% de promesses\nformulées par catégorie") +
   clessnverse::theme_clean_light(base_size = 15) +
-  theme(axis.title.x = element_text(hjust = 0.5, size = 12),
-        axis.title.y = element_text(hjust = 0.7, size = 12),
-        axis.text.x = element_text(angle = 60, hjust = 0.95, size = 12),
-        legend.title = element_text(size = 15))
+  theme(axis.title.x = element_text(hjust = 0.5, size = 22),
+        axis.title.y = element_text(hjust = 1, size = 22),
+        axis.text.x = element_text(angle = 65, hjust = 0.95, size = 22),
+        legend.title = element_text(size = 22))
 
 ## Impression du ggplot
 print(dftotalgraph)
@@ -103,3 +104,4 @@ print(dftotalgraph)
 ## Exportation 
 
 ggsave("_SharedFolder_livre_promesses-trudeau/Chapitre 1/graphs/pourcentage_mandat_1_2_3.png", plot = dftotalgraph, width = 12, height = 6)
+
