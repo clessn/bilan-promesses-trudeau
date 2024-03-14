@@ -87,7 +87,7 @@ dftotalgraph <- ggplot(dfbind_percent, aes(x = Catégories, y = Percentage, fill
   geom_bar(stat = "identity", position = "dodge")  +
   geom_text(aes(label = paste0(round(Percentage), "%")), vjust = -0.5,
             position = position_dodge(width = 0.9),
-            size = 2.5) +
+            size = 3.5) +
   scale_fill_manual("Mandat", values = pourcentage_palette) +
   scale_y_continuous(limits = c(0, 30)) +
   labs(x = "Catégorie d'enjeux",
@@ -96,7 +96,9 @@ dftotalgraph <- ggplot(dfbind_percent, aes(x = Catégories, y = Percentage, fill
   theme(axis.title.x = element_text(hjust = 0.5, size = 22),
         axis.title.y = element_text(hjust = 1, size = 22),
         axis.text.x = element_text(angle = 65, hjust = 0.95, size = 22),
-        legend.title = element_text(size = 22))
+        axis.text.y = element_text(size = 22),
+        legend.title = element_text(size = 22),
+        legend.text = element_text(size = 22))
 
 ## Impression du ggplot
 print(dftotalgraph)
