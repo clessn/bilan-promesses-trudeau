@@ -28,6 +28,8 @@ verdict_palette1 <- c("#228B22", "#F3C349", "#FF8C00", "#444444", "#AE0101")
 verdict_palette2 <- c("#228B22", "#F3C349", "#AE0101")
 verdict_palette3 <- c("#CCCCCC", "#AAAAAA", "#888888", "#555555", "black")
 verdict_palette4 <- c("#CCCCCC", "#666666", "black")
+verdict_palette5 <- c("black", "white", "white")
+verdict_palette6 <- c("black", "black", "white", "white", "white")
 
 ## graphique du 2eme mandat
 
@@ -43,10 +45,12 @@ ggplot(dftest2_percent, aes(
   fill = Status)) +
   geom_bar(stat = "identity")  +
   geom_text(data = dftest2_percent,
-            aes(label = round(Percentage)),
+            aes(label = round(Percentage), color = Status),
+            show.legend = FALSE,
             position = position_stack(vjust = 0.5),
-            size = 4, color = "white") +
+            size = 4) +
   scale_fill_manual(values = verdict_palette4) +
+  scale_color_manual(values = verdict_palette5) +
   labs(x = "Pourcentage de promesses",
        y = "Catégories d'enjeux",
        fill = "État de réalisation") +
@@ -55,7 +59,7 @@ ggplot(dftest2_percent, aes(
         axis.title.y = element_text(hjust = 0.5),
         legend.title = element_text(),
         legend.position = "right")
-
+        
 ggsave(paste0("_SharedFolder_livre_promesses-trudeau/Chapitre 1/graphs/",
               "mandat2_plot.png"), width = 9, height = 6)
 
@@ -72,11 +76,13 @@ ggplot(dftest3_percent, aes(
   x = Percentage, y = reorder(Catégories2, desc(Catégories2)),
   fill = Status)) +
   geom_bar(stat = "identity")  +
-  geom_text(data = dftest3_percent, 
-            aes(label = round(Percentage)),
+  geom_text(data = dftest3_percent,
+            aes(label = round(Percentage), color = Status),
+            show.legend = FALSE,
             position = position_stack(vjust = 0.5),
-            size = 4, color = "white") +
+            size = 4) +
   scale_fill_manual(values = verdict_palette3) +
+  scale_color_manual(values = verdict_palette6) +
   labs(x = "Pourcentage de promesses",
        y = "Catégories d'enjeux",
        fill = "État de réalisation") +
@@ -90,7 +96,7 @@ ggsave(paste0("_SharedFolder_livre_promesses-trudeau/Chapitre 1/graphs/",
 
 ## ANGLAIS
 
-dfexcelchap1 <- read.xlsx("_SharedFolder_livre_promesses-trudeau/Chapitre 1/PolimètreTrudeau-Chapitre1.xlsx", 3) |>
+dfexcelchap1 <- read.xlsx("_SharedFolder_livre_promesses-trudeau/Chapitre 1/BDTrudeau-Chap1.xlsx", 3) |>
   filter(`Inclusion.Polimètre./.Inclusion.Polimeter` == TRUE)
 dfcategoverdiENG <- dfexcelchap1 |>
   group_by(`Catégorie./.Category`, `Mandat./.Mandate`, Verdict,) |>
