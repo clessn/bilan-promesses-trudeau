@@ -54,7 +54,7 @@ ggplot(dftest2_percent, aes(
   labs(x = "Pourcentage de promesses",
        y = "Catégories d'enjeux",
        fill = "État de réalisation") +
-  clessnverse::theme_clean_light(base_size = 15) +
+  clessnverse::theme_clean_light(base_size = 17) +
   theme(axis.title.x = element_text(hjust = 0.5),
         axis.title.y = element_text(hjust = 0.5),
         legend.title = element_text(),
@@ -86,7 +86,7 @@ ggplot(dftest3_percent, aes(
   labs(x = "Pourcentage de promesses",
        y = "Catégories d'enjeux",
        fill = "État de réalisation") +
-  clessnverse::theme_clean_light(base_size = 15) +
+  clessnverse::theme_clean_light(base_size = 17) +
   theme(axis.title.x = element_text(hjust = 0.5),
         axis.title.y = element_text(hjust = 0.5),
         legend.title = element_text(),

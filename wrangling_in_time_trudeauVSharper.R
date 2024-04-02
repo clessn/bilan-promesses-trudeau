@@ -9,7 +9,7 @@ mois_fr_to_num <- c(janvier = 1, février = 2, mars = 3, avril = 4, mai = 5, jui
                     juillet = 7, août = 8, septembre = 9, octobre = 10, novembre = 11, décembre = 12)
 
 ## Load Trudeau II et III (only minority governments)
-trudeau <- readxl::read_excel("_SharedFolder_livre_promesses-trudeau/Chapitre 1/PolimètreTrudeau-Chapitre1.xlsx",
+trudeau <- readxl::read_excel("_SharedFolder_livre_promesses-trudeau/Chapitre 1/BDTrudeau-Chap1.xlsx",
                               sheet = "Sources") %>% 
   mutate(Mandat = as.character(Mandat)) %>% 
   mutate(date = as.Date(ifelse(is.na(`Année source`), lubridate::as_date(`Date ajout`), as.Date(NA))),
@@ -31,11 +31,11 @@ trudeau <- readxl::read_excel("_SharedFolder_livre_promesses-trudeau/Chapitre 1/
 
 #length(unique(trudeau$pledge_id[trudeau$mandate_id == "trudeau3"]))
 
-t <- readxl::read_excel("_SharedFolder_livre_promesses-trudeau/Chapitre 1/PolimètreTrudeau-Chapitre1.xlsx",
+t <- readxl::read_excel("_SharedFolder_livre_promesses-trudeau/Chapitre 1/BDTrudeau-Chap1.xlsx",
                         sheet = "Promesses")
 
 #### For trudeau III, need to add pledges with no source as "Rompue"
-trudeauiii_nosources <- pull(readxl::read_excel("_SharedFolder_livre_promesses-trudeau/Chapitre 1/PolimètreTrudeau-Chapitre1.xlsx",
+trudeauiii_nosources <- pull(readxl::read_excel("_SharedFolder_livre_promesses-trudeau/Chapitre 1/BDTrudeau-Chap1.xlsx",
                                                 sheet = "Promesses") %>% 
                                filter(`Mandat / Mandate` == 3 &
                                         `Inclusion Polimètre / Inclusion Polimeter` == TRUE &
@@ -53,7 +53,7 @@ trudeau <- rbind(trudeau, trudeauiii_nosourcesdf)
 
 ## Harper ------------------------------------------------------------------
 
-harper3940 <- readxl::read_excel("_SharedFolder_polimetre/14. BD/BD_Polimètre.xlsx",
+harper3940 <- readxl::read_excel("../polimetre-dev/_SharedFolder_polimetre-fonctionnement/14. BD/BD_Polimètre.xlsx",
                                  sheet = "Promesses_gouv") %>% 
   filter(Origine == "CAN" & L %in% c(39, 40)) %>% 
   mutate(mandate_id = paste0("harper", ifelse(L == 39, 1, 2))) %>% 
@@ -65,7 +65,7 @@ harper3940 <- readxl::read_excel("_SharedFolder_polimetre/14. BD/BD_Polimètre.x
          verdict,
          date)
 
-harper41 <- readxl::read_excel("_SharedFolder_polimetre/5. Polimètres archivés/6. Polimètre Fédéral (41-Harper)/polimetre_harper-41.xlsx",
+harper41 <- readxl::read_excel("../polimetre-dev/_SharedFolder_polimetre-fonctionnement/5. Polimètres archivés/6. Polimètre Fédéral (41-Harper)/polimetre_harper-41.xlsx",
                                sheet = "Sources") %>% 
   mutate(mandate_id = "harper3",
          date = as.Date(ifelse(is.na(annee), as.character(status_changed_on), paste0(annee, "-", mois, "-", jour)))) %>% 

@@ -10,7 +10,7 @@ Data[1:2, ][c(2, 4:7)] <- c(
   113, 79, # réalisée
   64, 99, # partiellement
   12, 165, # rompue
-  353, 343) # total Trudeau II-III
+  354, 343) # total Trudeau II-III
 Data[1, ][c(1, 3, 8)] <- c("CAN", "Trudeau", "Min") # Trudeau III
 Data$Statut <- ifelse(Data$X4 == "Maj", "Majoritaire", "Minoritaire")
 Data$Années <- c("2021-...", "2019-2021", "2015-2019", "2011-2015",
@@ -27,8 +27,8 @@ Data$PourcentAutre <- 100 * (
   Data$n - Data$Réalisée - Data$Partiellement.réalisée - Data$Rompue) / Data$n
 Data$PourcentSuspens <- NA
 Data$PourcentEnVoie <- NA
-Data$PourcentSuspens[1] <- 100 * (58 / 353)
-Data$PourcentEnVoie[1] <- 100 * (106 / 353)
+Data$PourcentSuspens[1] <- 100 * (59 / 354)
+Data$PourcentEnVoie[1] <- 100 * (106 / 354)
 DataFull <- filter(Data, Législature < 44)
 mean(DataFull$PourcentRéalisées)
 mean(DataFull$PourcentPartiellementRéalisées)
@@ -50,19 +50,22 @@ GraphData$PercentText <- round(GraphData$Pourcent, 2)
 
 bold.labels <- ifelse(levels(as.factor(GraphData$Gouvernement)) %in% c(
   "Trudeau 2015-2019 (n = 353)", "Trudeau 2019-2021 (n = 343)",
-  "Trudeau 2021-... (n = 353)"), yes = "bold", no = "plain")
+  "Trudeau 2021-... (n = 354)"), yes = "bold", no = "plain")
 verdict_palette3 <- c("#CCCCCC", "#AAAAAA", "#888888", "#555555", "black")
+verdict_palette6 <- c("black", "white", "white", "white", "white")
 
 ggplot(GraphData, aes(x = reorder(Gouvernement, Année.de.début), y = Pourcent,
                       fill = Verdict)) +
   geom_bar(stat = "identity", position = "fill") +
-  geom_text(aes(label = PourcentText), position = position_fill(vjust = 0.5),
-            size = 5, color = "white") +
+  geom_text(aes(label = PourcentText, color = Verdict),
+            show.legend = FALSE, position = position_fill(vjust = 0.5),
+            size = 5) +
   scale_fill_manual(values = verdict_palette3) +
+  scale_color_manual(values = verdict_palette6) +
   scale_x_discrete("") +
   scale_y_continuous("% des promesses\n",
                      labels = scales::percent_format(scale = 100)) +
-  clessnverse::theme_clean_light(base_size = 15) +
+  clessnverse::theme_clean_light(base_size = 17) +
   theme(axis.text.x = ggtext::element_markdown(hjust = 0.75, vjust = 0.75, angle = 45,
                                                face = bold.labels),
         panel.grid.major = element_blank(), panel.grid.minor = element_blank(),

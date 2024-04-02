@@ -90,3 +90,5 @@ check <- graph %>%
 as.Date("2023-12-11") - as.Date("2021-11-22")
 graph %>% 
   filter(day_in_mandate == 749) # date de la dernière MAJ Trudeau
+filter(graph, date_limit %in% c(
+  "2016-03-15", "2016-03-29", "2020-03-23", "2020-04-06", "2022-03-31", "2022-04-14"))
