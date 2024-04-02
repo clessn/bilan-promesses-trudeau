@@ -7,7 +7,7 @@ mois_fr_to_num <- c(janvier = 1, février = 2, mars = 3, avril = 4, mai = 5, jui
                     juillet = 7, août = 8, septembre = 9, octobre = 10, novembre = 11, décembre = 12)
 
 ## Load Trudeau II et III (only minority governments)
-trudeau <- readxl::read_excel("_SharedFolder_livre_promesses-trudeau/Chapitre 1/PolimètreTrudeau-Chapitre1.xlsx",
+trudeau <- readxl::read_excel("_SharedFolder_livre_promesses-trudeau/Chapitre 1/BDTrudeau-Chap1.xlsx",
                               sheet = "Sources") %>% 
   mutate(Mandat = as.character(Mandat)) %>% 
   filter(Mandat != 1) %>% 
@@ -30,11 +30,11 @@ trudeau <- readxl::read_excel("_SharedFolder_livre_promesses-trudeau/Chapitre 1/
 
 #length(unique(trudeau$pledge_id[trudeau$mandate_id == "trudeau3"]))
 
-t <- readxl::read_excel("_SharedFolder_livre_promesses-trudeau/Chapitre 1/PolimètreTrudeau-Chapitre1.xlsx",
+t <- readxl::read_excel("_SharedFolder_livre_promesses-trudeau/Chapitre 1/BDTrudeau-Chap1.xlsx",
                    sheet = "Promesses")
 
 #### For trudeau III, need to add pledges with no source as "Rompue"
-trudeauiii_nosources <- pull(readxl::read_excel("_SharedFolder_livre_promesses-trudeau/Chapitre 1/PolimètreTrudeau-Chapitre1.xlsx",
+trudeauiii_nosources <- pull(readxl::read_excel("_SharedFolder_livre_promesses-trudeau/Chapitre 1/BDTrudeau-Chap1.xlsx",
                               sheet = "Promesses") %>% 
   filter(`Mandat / Mandate` == 3 &
          `Inclusion Polimètre / Inclusion Polimeter` == TRUE &
@@ -51,7 +51,7 @@ trudeauiii_nosourcesdf <- data.frame(
 trudeau <- rbind(trudeau, trudeauiii_nosourcesdf)
 
 ## Load Higgs
-higgs <- readxl::read_excel("_SharedFolder_polimetre/5. Polimètres archivés/8. Polimètre Nouveau-Brunswick (Higgs-59)/polimetre_higgs-59.xlsx",
+higgs <- readxl::read_excel("../polimetre-dev/_SharedFolder_polimetre-fonctionnement/5. Polimètres archivés/8. Polimètre Nouveau-Brunswick (Higgs-59)/polimetre_higgs-59.xlsx",
                             sheet = "Sources") %>% 
   mutate(date = as.Date(ifelse(is.na(annee), lubridate::as_date(status_changed_on), as.Date(NA))),
          mois = ifelse(is.na(mois), 1, mois),
@@ -64,7 +64,7 @@ higgs <- readxl::read_excel("_SharedFolder_polimetre/5. Polimètres archivés/8.
          date)
 
 ## Load Marois
-marois <- readxl::read_excel("_SharedFolder_polimetre/5. Polimètres archivés/7. Polimètre Québec (40-Marois)/polimetre_marois-40.xlsx",
+marois <- readxl::read_excel("../polimetre-dev/_SharedFolder_polimetre-fonctionnement/5. Polimètres archivés/7. Polimètre Québec (40-Marois)/polimetre_marois-40.xlsx",
                              sheet = "Sources") %>% 
   mutate(date = as.Date(ifelse(is.na(annee), lubridate::as_date(status_changed_on), as.Date(NA))),
          mois = ifelse(is.na(mois), 1, mois),
