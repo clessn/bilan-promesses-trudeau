@@ -6,6 +6,10 @@ dftotal <- read.csv("graphtotal.csv", header = TRUE,
                                    Mandat.2.et.3 = "numeric",
                                    Mandat.2 = "numeric",
                                    Mandat.3 = "numeric"))
+Promesses <- openxlsx::read.xlsx(
+  "_SharedFolder_livre_promesses-trudeau/Chapitre 1/BDTrudeau-Chap1.xlsx",
+  3) |> filter(`Inclusion.Polimètre./.Inclusion.Polimeter` == T)
+dftotal <- data.frame(Promesses)
 
 colnames(dftotal) <- c("Catégories", "Mandats 2 et 3", "Mandat 2", "Mandat 3")
 

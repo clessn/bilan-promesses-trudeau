@@ -164,7 +164,8 @@ output <- get_pledges_status(data = data,
                              pledges = skeleton$pledge_cross_id,
                              dates = skeleton$date_in_mandate)
 
-saveRDS(output, "_SharedFolder_livre_promesses-trudeau/Chapitre 1/data/output_graph_trudeauharper.rds")
+#saveRDS(output, "_SharedFolder_livre_promesses-trudeau/Chapitre 1/data/output_graph_trudeauharper.rds")
+saveRDS(output, "_SharedFolder_livre_promesses-trudeau/Chapitre 1/data/output_graph_trudeauharper_cpsa.rds")
 
 # Aggregate ---------------------------------------------------------------
 

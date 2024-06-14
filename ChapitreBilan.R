@@ -7,8 +7,8 @@ Data <- openxlsx::read.xlsx(paste0(
 Data <- Data[-c(11:22), ]
 Data[1:2, ][c(2, 4:7)] <- c(
   44, 43, # mandat
-  113, 79, # réalisée
-  64, 99, # partiellement
+  130, 79, # réalisée
+  72, 99, # partiellement
   12, 165, # rompue
   354, 343) # total Trudeau II-III
 Data[1, ][c(1, 3, 8)] <- c("CAN", "Trudeau", "Min") # Trudeau III
@@ -27,8 +27,8 @@ Data$PourcentAutre <- 100 * (
   Data$n - Data$Réalisée - Data$Partiellement.réalisée - Data$Rompue) / Data$n
 Data$PourcentSuspens <- NA
 Data$PourcentEnVoie <- NA
-Data$PourcentSuspens[1] <- 100 * (59 / 354)
-Data$PourcentEnVoie[1] <- 100 * (106 / 354)
+Data$PourcentSuspens[1] <- 100 * (40 / 354)
+Data$PourcentEnVoie[1] <- 100 * (100 / 354)
 DataFull <- filter(Data, Législature < 44)
 mean(DataFull$PourcentRéalisées)
 mean(DataFull$PourcentPartiellementRéalisées)

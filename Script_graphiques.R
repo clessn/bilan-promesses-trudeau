@@ -99,24 +99,24 @@ ggsave(paste0("_SharedFolder_livre_promesses-trudeau/Chapitre 1/graphs/",
 dfexcelchap1 <- read.xlsx("_SharedFolder_livre_promesses-trudeau/Chapitre 1/BDTrudeau-Chap1.xlsx", 3) |>
   filter(`Inclusion.Polimètre./.Inclusion.Polimeter` == TRUE)
 dfcategoverdiENG <- dfexcelchap1 |>
-  group_by(`Catégorie./.Category`, `Mandat./.Mandate`, Verdict,) |>
+  group_by(Nouvelle.catégorie, `Mandat./.Mandate`, Verdict) |>
   summarise(Value = n())
 colnames(dfcategoverdiENG) <- c("Categories", "Term","Status", "Value" )
 
 dfcategoverdiENG <- dfcategoverdiENG %>%
   mutate(Categories = case_when(
     Categories == "Affaires internationales et défense" ~ "International Affairs and Defense",
-    Categories == "Arts et culture" ~ "Arts and Culture",
-    Categories == "Économie et employabilité" ~ "Economy and Employability",
-    Categories == "Éducation et recherche" ~ "Education and Research",
-    Categories == "Environnement" ~ "Environment",
-    Categories == "Familles" ~ "Families",
-    Categories == "Gouvernement et démocratie" ~ "Government and Democracy",
+    Categories == "Culture et nationalisme" ~ "Culture and Nationalism",
+    Categories == "Économie et travail" ~ "Economy and Labor",
+    Categories == "Éducation" ~ "Education",
+    Categories == "Environnement et énergie" ~ "Environment and Energy",
+    Categories == "Technologie" ~ "Technology",
+    Categories == "Gouvernements et gouvernance" ~ "Governments and Governance",
     Categories == "Identité et nationalisme" ~ "Identity and Nationalism",
-    Categories == "Loi et ordre" ~ "Law and Order",
-    Categories == "Minorités" ~ "Minorities",
-    Categories == "Régions et agriculture" ~ "Regions and Agriculture",
-    Categories == "Santé et services sociaux" ~ "Health and Social Service",
+    Categories == "Loi et crime" ~ "Law and Crime",
+    Categories == "Droits, libertés, minorités et discrimination" ~ "Rights, Liberties, Minorities, and Discrimination",
+    Categories == "Terres publiques et agriculture" ~ "Public Lands and Agriculture",
+    Categories == "Santé et services sociaux" ~ "Health and Social Services",
     TRUE ~ Categories)) 
 
 dfcategoverdiENG <- dfcategoverdiENG %>%
@@ -148,9 +148,9 @@ KeptPartiallyData <- dfcategoverdiENG_percent |>
   filter(Status %in% c("Kept", "Partially kept")) |>
   group_by(Categories, Term) |>
   summarise(Percentage = sum(Percentage))
-KeptPartiallyData[12,1] <- "Identity and Nationalism"
-KeptPartiallyData[12,2] <- "2"
-KeptPartiallyData[12,3] <- 0
+#KeptPartiallyData[12,1] <- "Identity and Nationalism"
+#KeptPartiallyData[12,2] <- "2"
+#KeptPartiallyData[12,3] <- 0
 KeptPartiallyData <- arrange(KeptPartiallyData, Percentage)
 KeptPartiallyData$id <- 1:nrow(KeptPartiallyData)
 dfcategoverdiENG_percent$id <- mgsub::mgsub(
@@ -204,7 +204,7 @@ dfcategoverdiENG_percent$id <- mgsub::mgsub(
   pattern = KeptPartiallyData$Categories,
   replacement = KeptPartiallyData$id)
 dfcategoverdiENG_percent$Categories2 <- paste0(
-  dfcategoverdiENG_percent$Categories, " (n = ",
+  dfcategoverdiENG_percent$Categories, " (N = ",
   dfcategoverdiENG_percent$Value2, ")")
 graphmandat3ENG <- dfcategoverdiENG_percent |>
   ggplot(aes(x = Percentage, y = reorder(Categories2, as.numeric(id)),

@@ -70,61 +70,48 @@ knitr::include_graphics("../../polimetre-dev/_SharedFolder_polimetre-fonctionnem
 ```
 :::
 ::::
-
-# Minority Governments in the Literature
-
-----
-
-Pledge fulfillment in single-party majority vs. minority governments
-
-- Single-party minority governments tend to keep similar proportions of promises as single-party majority governments
-<!--pour la même période de temps-->
-
-- Reasons why they fulfill many pledges
-
-  1. The electoral platform as a contract
-
-  2. Pressure from opposition parties
-
-  3. Defending their performance in case of early election
-
-----
-
-- Reasons why they do not fulfill all pledges
-
-  1. Some promises cannot be fulfilled
-
-  2. Exogenous shocks
-
 <!--
-Présentation surtout descriptive et comparative aujourd'hui, pour établir les bases
+Je vais commencer par remercier tous les partenaires liés à ce projet
+IDJS: finance le projet de livre actuel
+brillante équipe d'auxiliaires de recherche aide à mettre à jour l'outil. Benjamin, Étienne, Arnaud, Sarah-Jane, Simone, Bassirou, Arthur, Isabelle
+Donc présentation d'aujourd'hui = surtout une mise à jour de mi-mandat sur les promesses pertinentes, + quelques notes méthodologiques
+Pourcentage de promesses réalisées et rompues par mandat à travers le temps et raisons derrière ces taux de réalisation
 -->
+
+# Polimeter Methodology
+
+----
+
+- Pledge (or promise): "A pledge is a statement committing a party to an action or outcome that is testable"
+
+- Pledges extracted from 3 sources:
+
+  1. Party platform
+
+  2. Official campaign press releases
+
+  3. Documents submitted to the Parliamentary Budget Officer (PBO)
+
+----
+
+5 potential verdicts:
+<!--Ici, je mentionne juste certains cas de figure communs-->
+
+- *Kept* pledge: all actions promised have been taken or all outcomes promised have been achieved
+
+- *Partially kept* pledge: some actions promised have been taken, but not all, or not within the time frame specified, or the outcome has been partially met
+
+- *In progress* pledge (only during mandate): concrete action has been taken (e.g. by the government, such as a bill), but none of the actions or outcomes promised are achieved
+
+- *Not yet rated* pledge (only during mandate): no concrete action has been taken
+
+- *Broken* pledge: the actions promised has been explicitly abandoned, or have not been achieved within the time frame proposed
+
+----
+
+Identification of promises and pledge ratings: both performed by skilled research assistants, with double-vetting in team meetings
 
 # Trudeau Minority Governments in Comparison
-
-----
-
-```{r}
-#| echo: false
-#| out.width: "325pt"
-#| fig-cap: "Time Trends of Pledge Fulfillment Through Time in Recent Canadian Minority Governments"
-knitr::include_graphics("../_SharedFolder_livre_promesses-trudeau/Chapitre 1/graphs/progression_mandats_minoritaires_EN_pres.png")
-```
-<!--
-Durant le mandat de 2019-2021, le taux de réalisation des promesses électorales et a été relativement faible comparativement aux autres mandats minoritaires étudiés
-
-Le mandat a connu un démarrage particulièrement lent
-
-accélération dans l'accomplissement des engagements en raison du dépôt du Budget 2021-2022
-
-Il est pertinent de noter trois événements significatifs survenus au début du mandat, chacun ayant potentiellement influencé la capacité du gouvernement à honorer ses promesses : l'avion civil ukrainien abattu en Iran, les blocus autochtones anti-gazoduc et le début de la pandémie mondiale de la COVID-19
-
-Malgré ces perturbations, la fin du mandat a été marquée par une progression notable, avec un taux d'accomplissement des promesses qui s'est élevé jusqu’à 51 %, se rapprochant ainsi des performances observées pendant les mandats de Higgs et de Marois (mais inférieures à l'habitude)
-
-Le mandat de 2021 à aujourd'hui démontre une tendance initiale similaire à celle des mandats précédents de Higgs et de Marois, avec une croissance stable des promesses réalisées. Cependant, entre le 250e et le 300e jour, cette progression a légèrement ralenti. Néanmoins, entre le 400e et le 500e jour, un rattrapage significatif a été observé, et le mandat a non seulement comblé le retard mais a également surpassé les autres, atteignant un taux de 80 % de promesses tenues en partie ou en voie
-
-Le déclenchement de la guerre en Ukraine pourrait laisser supposer un impact sur la gestion du mandat, mais les données indiquent une augmentation drastique de l'accomplissement des promesses peu de temps après cet événement
--->
 
 ----
 
@@ -135,7 +122,7 @@ Le déclenchement de la guerre en Ukraine pourrait laisser supposer un impact su
 knitr::include_graphics("../_SharedFolder_livre_promesses-trudeau/Chapitre 1/graphs/VerdictsParMandat-EN.png")
 ```
 <!--
-beaucoup de promesses 3 derniers mandats. 570 au départ avant tri. Promesses pour Premières Nations, promesses pour Inuits, promesses pour Métis
+beaucoup de promesses 3 derniers mandats. 570 au départ avant tri.
 
 Excluant le mandat actuel, depuis 1993, pour le mandat moyen, 55,8 % des promesses ont été réalisées, 13,8 % ont été partiellement réalisées et 30,3 % ont été rompues
 
@@ -145,11 +132,7 @@ Les gouvernements minoritaires canadiens semblent également réaliser moins de 
 
 % de promesses réalisées par mandat : score le plus élevé = Harper 2011-2015. % de promesses rompues par mandat = le + faible pour Trudeau I
 
-Beaucoup de promesses partiellement réalisées. Promesses au moins 2 fois + longues, avec beaucoup de clauses. Beaucoup de mentions de collaboration avec provinces et peuples autochtones
-
-Exemple : CELIAPP: 3.06.29 - « Permettre aux Canadiens âgés de moins de 40 ans d’ouvrir un Régime enregistré d’épargne-propriété (REEP) d’au plus 40 000 $. Les cotisations versées dans ce régime sont comptabilisées au titre de la limite des cotisations au REER d’une personne et sont déduites de son revenu. Les fonds peuvent aussi être transférés d’un REER personnel. Tous les fonds versés dans le REEP peuvent être retirés en franchise d’impôt pour acheter une première propriété et n’ont pas à être remboursés. Au moins 50 % des fonds retirés du REEP devront être investis pour au moins quatre ans, et aucun fonds ne pourra être retiré dans l’année suivant celle où ils ont été versés. Le REEP entrera en vigueur en juillet 2022. »
-
-(1 création de programme, 2 détails du programme, 3 date d'entrée en vigueur... Parfois aussi financement + création de programme)
+Beaucoup de promesses partiellement réalisées. Promesses au moins 2 fois + longues, avec beaucoup de clauses (1 création de programme, 2 détails du programme, 3 date d'entrée en vigueur... Parfois aussi financement + création de programme). Beaucoup de mentions de collaboration avec provinces et peuples autochtones
 -->
 
 # Pledges by Issue Category
@@ -159,16 +142,22 @@ Exemple : CELIAPP: 3.06.29 - « Permettre aux Canadiens âgés de moins de 40 an
 ```{r}
 #| echo: false
 #| out.width: "325pt"
-#| fig-cap: "Percentage of Pledges by Issue Category by Mandate"
-knitr::include_graphics("../_SharedFolder_livre_promesses-trudeau/Chapitre 1/graphs/pourcentage_mandat2_3ENG.png")
+#| fig-cap: "Percentage of Pledges by Issue Category by Mandate (Trudeau 2015--...)"
+knitr::include_graphics("../_SharedFolder_livre_promesses-trudeau/Chapitre 1/graphs/pourcentage_mandat_1_2_3_en.png")
 ```
+
+----
+
+Indigenous affairs: 123 promises
+
+- Steady increase, from 21 (mandate 1) to 39 (mandate 2) to 63 (mandate 3)
 
 ----
 
 ```{r}
 #| echo: false
 #| out.width: "325pt"
-#| fig-cap: "Second-Term Verdicts by Issue Category"
+#| fig-cap: "Second-Term Verdicts by Issue Category (Trudeau 2015--...)"
 knitr::include_graphics("../_SharedFolder_livre_promesses-trudeau/Chapitre 1/graphs/mandat2ENG_plot.png")
 ```
 
@@ -177,7 +166,7 @@ knitr::include_graphics("../_SharedFolder_livre_promesses-trudeau/Chapitre 1/gra
 ```{r}
 #| echo: false
 #| out.width: "325pt"
-#| fig-cap: "Third-Term Verdicts by Issue Category"
+#| fig-cap: "Third-Term Verdicts by Issue Category (Trudeau 2015--...)"
 knitr::include_graphics("../_SharedFolder_livre_promesses-trudeau/Chapitre 1/graphs/mandat3ENG_plot.png")
 ```
 <!--
@@ -186,6 +175,58 @@ Aucune en gouv et démocratie
 Aucune en identité et nationalisme
 -->
 
+----
+
+```{r}
+#| echo: false
+#| out.width: "325pt"
+#| fig-cap: "Time Trends of Pledge Fulfillment Through Time in Recent Federal Governments"
+knitr::include_graphics("../_SharedFolder_livre_promesses-trudeau/Chapitre 1/graphs/progression_mandats_harpertrudeau_en.png")
+```
+<!--
+Durant le mandat de 2019-2021, le taux de réalisation des promesses électorales et a été relativement faible comparativement aux autres mandats minoritaires étudiés
+
+Le mandat a connu un démarrage particulièrement lent
+
+accélération dans l'accomplissement des engagements en raison du dépôt du Budget 2021-2022
+
+Il est pertinent de noter trois événements significatifs survenus au début du mandat, chacun ayant potentiellement influencé la capacité du gouvernement à honorer ses promesses : l'avion civil ukrainien abattu en Iran, les blocus autochtones anti-gazoduc et le début de la pandémie mondiale de la COVID-19
+
+Le déclenchement de la guerre en Ukraine pourrait laisser supposer un impact sur la gestion du mandat, mais les données indiquent une augmentation drastique de l'accomplissement des promesses peu de temps après cet événement
+-->
+
+# Minority Governments in the Literature
+
+----
+
+Pledge fulfillment in single-party majority vs. minority governments
+
+- Single-party minority governments tend to keep similar proportions of promises as single-party majority governments (Artés, 2013; Costello & Thomson, 2008; Strøm, 1990; Thomson et al., 2017)
+<!--pour la même période de temps-->
+
+- Reasons why they fulfill many pledges (Moury & Fernandes, 2018)
+
+  1. The electoral platform as a contract
+<!--Les gouvernements minoritaires utilisent l’argument rhétorique que leur plateforme électorale constitue un contrat avec l’électorat. Cela pousse les partis d’opposition vers la collaboration, faute de quoi ils peuvent être diabolisés par le parti au pouvoir comme faisant de l’obstruction au bon déroulement de la démocratie-->
+
+  2. Pressure from opposition parties
+<!--les gouvernements minoritaires veulent avoir un bilan positif à défendre en cas de chute. En effet, les gouvernements minoritaires peuvent facilement être renversés par un vote de confiance qui pourrait dissoudre le parlement et enclencher des élections. Si les citoyens devaient se rendre aux urnes, le gouvernement en place veut avoir un certain nombre de réalisations à défendre afin de promouvoir son offre électorale et de maintenir sa crédibilité dans l’optique d’être réélu, voire d’obtenir un mandat majoritaire.-->
+
+  3. Defending their performance in case of early election
+<!--élections hâtives-->
+
+----
+
+Canadian exception? (Duval & Pétry, 2019)
+
+- Minority governments are short-lived in Canada
+
+- Lack of formal agreement between government & opposition
+
+- Cultural tendency to call early elections when the context is good for the party in power
+
+- High partisanship
+
 # Conclusion
 
 ----
@@ -193,9 +234,9 @@ Aucune en identité et nationalisme
 - Mandate 2: several exogenous shocks & short mandate -> 48% broken pledges, 23% fully kept
 
 - Mandate 3: Liberal--NDP Agreement, more stability despite crises
-  - Already 80% promises kept, partially kept or in progress
+  - Already 85% promises kept, partially kept or in progress
   - Relatively high by historical standards for minority governments
-  - But most of the 30% "in progress" & 16% "not yet rated" promises would be broken if the election was launched right now
+  - But most of the 28% "in progress" & 11% "not yet rated" promises would be broken if the election was launched right now
 
 <!--
 Convoi de la liberté, Ukraine, inflation, logement, Israel

@@ -4,7 +4,8 @@ library(dplyr)
 Sys.setlocale("LC_ALL", "fr_CA")
 
 # Data --------------------------------------------------------------------
-Data <- readRDS("_SharedFolder_livre_promesses-trudeau/Chapitre 1/data/output_graph_trudeauharper.rds")
+#Data <- readRDS("_SharedFolder_livre_promesses-trudeau/Chapitre 1/data/output_graph_trudeauharper.rds")
+Data <- readRDS("_SharedFolder_livre_promesses-trudeau/Chapitre 1/data/output_graph_trudeauharper_cpsa.rds")
 
 labels <- c("harper1" = "<span style='color:grey70'> Harper I (2006-2008)* </span>",
             "trudeau1" = "Trudeau I (2015-2019)**",
@@ -82,6 +83,32 @@ ggplot(graph, aes(x = day_in_mandate, y = prop,
         legend.text=ggtext::element_markdown(size=15))
 
 ggsave("_SharedFolder_livre_promesses-trudeau/Chapitre 1/graphs/progression_mandats_harpertrudeau.png",
+       width = 9, height = 6)
+
+ggplot(graph, aes(x = day_in_mandate, y = prop,
+                  group = mandate_id, linetype = mandate_id,
+                  color = mandate_id)) +
+  geom_line(linewidth = 0.5) +
+  clessnverse::theme_clean_light() +
+  scale_color_manual(values = c("harper1" = "grey70", "harper2" = "grey70", "harper3" = "grey70",
+                                "trudeau1" = "black", "trudeau2" = "black", "trudeau3" = "black"),
+                     labels = labels, limits = names(labels)) +
+  scale_linetype_manual(values = c("harper1" = "dotted", "harper2" = "dashed", "harper3" = "solid",
+                                   "trudeau1" = "dotted", "trudeau2" = "dashed", "trudeau3" = "solid"),
+                        labels = labels, limits = names(labels)) +
+  ylab("\nProportion of promises kept, partially\nkept, or in progress to date (%)\n") +
+  xlab("\nDay in mandate\n") +
+  scale_y_continuous(breaks = c(0, 25, 50, 75, 100),
+                     limits = c(0, 100)) +
+  labs(caption = "* = Minority Government\n** = Majority Government") +
+  theme(axis.title.x = element_text(hjust = 0.5, size = 16),
+        axis.title.y = element_text(hjust = 0.5, size = 16),
+        axis.text.x = element_text(size = 13),
+        axis.text.y = element_text(size = 13),
+        plot.caption = element_text(size = 11), 
+        legend.text=ggtext::element_markdown(size=15))
+
+ggsave("_SharedFolder_livre_promesses-trudeau/Chapitre 1/graphs/progression_mandats_harpertrudeau_en.png",
        width = 9, height = 6)
 
 
