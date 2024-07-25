@@ -66,12 +66,12 @@ ggplot(GraphData, aes(x = reorder(Gouvernement, Année.de.début), y = Pourcent,
   scale_y_continuous("% des promesses\n",
                      labels = scales::percent_format(scale = 100)) +
   clessnverse::theme_clean_light(base_size = 17) +
-  theme(axis.text.x = ggtext::element_markdown(hjust = 0.75, vjust = 0.75, angle = 45,
+  theme(axis.text.x = ggtext::element_markdown(hjust = 0.75, vjust = 0.75, angle = 90,
                                                face = bold.labels),
         panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
         panel.border = element_blank(), panel.background = element_blank())
 ggsave(paste0("_SharedFolder_livre_promesses-trudeau/Chapitre 1/graphs/",
-              "VerdictsParMandat.png"), width = 9, height = 6)
+              "VerdictsParMandat.png"), width = 9, height = 8)
 
 GraphData$VerdictEN <- NA
 GraphData$VerdictEN <- factor(

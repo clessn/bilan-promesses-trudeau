@@ -121,7 +121,7 @@ dftotalgraph <- ggplot(dfbind_percent, aes(x = Catégories, y = Percentage, fill
   clessnverse::theme_clean_light(base_size = 15) +
   theme(axis.title.x = element_text(hjust = 0.5, size = 22),
         axis.title.y = element_text(hjust = 1, size = 22),
-        axis.text.x = element_text(angle = 65, hjust = 0.95, size = 22),
+        axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 0.95, size = 22),
         axis.text.y = element_text(size = 22),
         legend.title = element_text(size = 22),
         legend.text = element_text(size = 22))
@@ -131,7 +131,7 @@ print(dftotalgraph)
 
 ## Exportation 
 
-ggsave("_SharedFolder_livre_promesses-trudeau/Chapitre 1/graphs/pourcentage_mandat_1_2_3.png", plot = dftotalgraph, width = 12, height = 6)
+ggsave("_SharedFolder_livre_promesses-trudeau/Chapitre 1/graphs/pourcentage_mandat_1_2_3.png", plot = dftotalgraph, width = 9, height = 7)
 
 dftotalgraphen <- ggplot(dfbind_percenten, aes(x = Categories, y = Percentage, fill = Mandate)) +
   geom_bar(stat = "identity", position = "dodge")  +
