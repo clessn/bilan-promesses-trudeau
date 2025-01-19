@@ -53,7 +53,7 @@ trudeau <- rbind(trudeau, trudeauiii_nosourcesdf)
 
 ## Harper ------------------------------------------------------------------
 
-harper3940 <- readxl::read_excel("../polimetre-dev/_SharedFolder_polimetre-fonctionnement/14. BD/BD_Polimètre.xlsx",
+harper3940 <- readxl::read_excel("_SharedFolder_polimetre/14. BD/BD_Polimètre.xlsx",
                                  sheet = "Promesses_gouv") %>% 
   filter(Origine == "CAN" & L %in% c(39, 40)) %>% 
   mutate(mandate_id = paste0("harper", ifelse(L == 39, 1, 2))) %>% 
@@ -65,7 +65,7 @@ harper3940 <- readxl::read_excel("../polimetre-dev/_SharedFolder_polimetre-fonct
          verdict,
          date)
 
-harper41 <- readxl::read_excel("../polimetre-dev/_SharedFolder_polimetre-fonctionnement/5. Polimètres archivés/6. Polimètre Fédéral (41-Harper)/polimetre_harper-41.xlsx",
+harper41 <- readxl::read_excel("_SharedFolder_polimetre/5. Polimètres archivés/6. Polimètre Fédéral (41-Harper)/polimetre_harper-41.xlsx",
                                sheet = "Sources") %>% 
   mutate(mandate_id = "harper3",
          date = as.Date(ifelse(is.na(annee), as.character(status_changed_on), paste0(annee, "-", mois, "-", jour)))) %>% 

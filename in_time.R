@@ -51,7 +51,7 @@ trudeauiii_nosourcesdf <- data.frame(
 trudeau <- rbind(trudeau, trudeauiii_nosourcesdf)
 
 ## Load Higgs
-higgs <- readxl::read_excel("../polimetre-dev/_SharedFolder_polimetre-fonctionnement/5. Polimètres archivés/8. Polimètre Nouveau-Brunswick (Higgs-59)/polimetre_higgs-59.xlsx",
+higgs <- readxl::read_excel("_SharedFolder_polimetre/5. Polimètres archivés/8. Polimètre Nouveau-Brunswick (Higgs-59)/polimetre_higgs-59.xlsx",
                             sheet = "Sources") %>% 
   mutate(date = as.Date(ifelse(is.na(annee), lubridate::as_date(status_changed_on), as.Date(NA))),
          mois = ifelse(is.na(mois), 1, mois),
@@ -64,7 +64,7 @@ higgs <- readxl::read_excel("../polimetre-dev/_SharedFolder_polimetre-fonctionne
          date)
 
 ## Load Marois
-marois <- readxl::read_excel("../polimetre-dev/_SharedFolder_polimetre-fonctionnement/5. Polimètres archivés/7. Polimètre Québec (40-Marois)/polimetre_marois-40.xlsx",
+marois <- readxl::read_excel("_SharedFolder_polimetre/5. Polimètres archivés/7. Polimètre Québec (40-Marois)/polimetre_marois-40.xlsx",
                              sheet = "Sources") %>% 
   mutate(date = as.Date(ifelse(is.na(annee), lubridate::as_date(status_changed_on), as.Date(NA))),
          mois = ifelse(is.na(mois), 1, mois),
@@ -86,7 +86,7 @@ table(data$verdict, data$mandate_id)
 #  filter(mandate_id == "trudeau3") %>% 
 #  group_by(pledge_cross_id) %>% 
 #  filter(date == max(date)) %>% 
-#  mutate(realisee = case_when(
+#  mutate(realisee = case_when(../polimetre-dev/_SharedFolder_polimetre-fonctionnement
 #              verdict %in% c("Partiellement réalisée",
 #                    "Réalisée", "En voie de réalisation") ~ 1
 #                  ),
@@ -142,10 +142,12 @@ get_pledges_status <- function(data, pledges,
 # Exemple d'utilisation :
 # obtenir_verdicts_optimal(votre_dataframe, vecteur_pledges, vecteur_dates)
 
+pledges <- data$pledge_id[1:2]
+dates <- data$date[1:2]
+
 check <- get_pledges_status(data,
      pledges = pledges,
      dates = dates)
-
 
 # Create evolution of pledges verdicts ------------------------------------------
 
@@ -245,7 +247,7 @@ ggplot(graph, aes(x = day_in_mandate, y = prop,
                   alpha = mandate_id,
                   linewidth = trudeau_mandate)) +
   geom_line(linewidth = 0.5) +
-  clessnverse::theme_clean_light() +
+  clessnize::theme_clean_light() +
   ggrepel::geom_text_repel(data = DatesImportantes,
                            angle = 90, hjust = 0,
                            aes(label = label),
