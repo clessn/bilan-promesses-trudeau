@@ -7,13 +7,13 @@ Data <- openxlsx::read.xlsx(paste0(
 Data <- Data[-c(11:22), ]
 Data[1:2, ][c(2, 4:7)] <- c(
   44, 43, # mandat
-  130, 79, # réalisée
-  72, 99, # partiellement
-  12, 165, # rompue
+  140, 79, # réalisée
+  78, 99, # partiellement
+  15, 165, # rompue
   354, 343) # total Trudeau II-III
 Data[1, ][c(1, 3, 8)] <- c("CAN", "Trudeau", "Min") # Trudeau III
 Data$Statut <- ifelse(Data$X4 == "Maj", "Majoritaire", "Minoritaire")
-Data$Années <- c("2021-...", "2019-2021", "2015-2019", "2011-2015",
+Data$Années <- c("2021-2025", "2019-2021", "2015-2019", "2011-2015",
                  "2008-2011", "2006-2008", "2004-2006", "2000-2004",
                  "1997-2000", "1993-1997")
 Data$Année.de.début <- as.numeric(substr(Data$Années, 1, 4))
@@ -27,8 +27,8 @@ Data$PourcentAutre <- 100 * (
   Data$n - Data$Réalisée - Data$Partiellement.réalisée - Data$Rompue) / Data$n
 Data$PourcentSuspens <- NA
 Data$PourcentEnVoie <- NA
-Data$PourcentSuspens[1] <- 100 * (40 / 354)
-Data$PourcentEnVoie[1] <- 100 * (100 / 354)
+Data$PourcentSuspens[1] <- 100 * (34 / 354)
+Data$PourcentEnVoie[1] <- 100 * (87 / 354)
 DataFull <- filter(Data, Législature < 44)
 mean(DataFull$PourcentRéalisées)
 mean(DataFull$PourcentPartiellementRéalisées)
@@ -50,7 +50,7 @@ GraphData$PercentText <- round(GraphData$Pourcent, 2)
 
 bold.labels <- ifelse(levels(as.factor(GraphData$Gouvernement)) %in% c(
   "Trudeau 2015-2019 (n = 353)", "Trudeau 2019-2021 (n = 343)",
-  "Trudeau 2021-... (n = 354)"), yes = "bold", no = "plain")
+  "Trudeau 2021-2025 (n = 354)"), yes = "bold", no = "plain")
 verdict_palette3 <- c("#CCCCCC", "#AAAAAA", "#888888", "#555555", "black")
 verdict_palette6 <- c("black", "white", "white", "white", "white")
 
@@ -79,15 +79,14 @@ GraphData$VerdictEN <- factor(
   levels = c("Réalisées", "Partiellement\nréalisées",
              "En voie de\nréalisation\n(Trudeau 44)",
              "En suspens\n(Trudeau 44)", "Rompues"),
-  labels = c("Kept", "Partially kept", "In the works\n(Trudeau 44)",
+  labels = c("Kept", "Partially kept", "In progress\n(Trudeau 44)",
              "Not yet rated\n(Trudeau 44)", "Broken"))
 ggplot(GraphData, aes(x = reorder(Gouvernement, Année.de.début),
                       y = Pourcent, fill = VerdictEN)) +
   geom_bar(stat = "identity", position = "fill") +
   geom_text(aes(label = PercentText), position = position_fill(vjust = 0.5),
             size = 2.5, color = "white") +
-  scale_fill_manual("\n\n\n\n\n\n\nVerdict", values = c(
-    "#228B22", "#F3C349", "#FF8C00", "#444444", "#AE0101")) +
+  scale_fill_manual("\n\n\n\n\n\n\nVerdict", values = verdict_palette3) +
   scale_x_discrete("") +
   scale_y_continuous("% of promises\n",
                      labels = scales::percent_format(scale = 100)) +

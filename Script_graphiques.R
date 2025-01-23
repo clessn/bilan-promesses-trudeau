@@ -2,7 +2,7 @@ library(tidyverse)
 library(openxlsx)
 
 dfexcelchap1 <- openxlsx::read.xlsx(
-  "_SharedFolder_livre_promesses-trudeau/Chapitre 1/BDTrudeau-Chap1.xlsx",
+  "_SharedFolder_livre_promesses-trudeau/Chapitre 1/Polimètre Trudeau ED 11 décembre.xlsx",
   3) |>
   filter(`Inclusion.Polimètre./.Inclusion.Polimeter` == TRUE) |>
   filter(`Mandat./.Mandate` %in% c("2", "3"))
@@ -96,7 +96,7 @@ ggsave(paste0("_SharedFolder_livre_promesses-trudeau/Chapitre 1/graphs/",
 
 ## ANGLAIS
 
-dfexcelchap1 <- read.xlsx("_SharedFolder_livre_promesses-trudeau/Chapitre 1/BDTrudeau-Chap1.xlsx", 3) |>
+dfexcelchap1 <- read.xlsx("_SharedFolder_livre_promesses-trudeau/Chapitre 1/Polimètre Trudeau ED 11 décembre.xlsx", 3) |>
   filter(`Inclusion.Polimètre./.Inclusion.Polimeter` == TRUE)
 dfcategoverdiENG <- dfexcelchap1 |>
   group_by(Nouvelle.catégorie, `Mandat./.Mandate`, Verdict) |>
@@ -105,18 +105,18 @@ colnames(dfcategoverdiENG) <- c("Categories", "Term","Status", "Value" )
 
 dfcategoverdiENG <- dfcategoverdiENG %>%
   mutate(Categories = case_when(
-    Categories == "Affaires internationales et défense" ~ "International Affairs and Defense",
+    Categories == "Affaires internationales et défense" ~ "International Affairs and Defence",
     Categories == "Culture et nationalisme" ~ "Culture and Nationalism",
-    Categories == "Économie et travail" ~ "Economy and Labor",
+    Categories == "Économie et travail" ~ "Economy and Labour",
     Categories == "Éducation" ~ "Education",
     Categories == "Environnement et énergie" ~ "Environment and Energy",
     Categories == "Technologie" ~ "Technology",
     Categories == "Gouvernements et gouvernance" ~ "Governments and Governance",
-    Categories == "Identité et nationalisme" ~ "Identity and Nationalism",
+    Categories == "Immigration" ~ "Immigration",
     Categories == "Loi et crime" ~ "Law and Crime",
-    Categories == "Droits, libertés, minorités et discrimination" ~ "Rights, Liberties, Minorities, and Discrimination",
+    Categories == "Droits, libertés, minorités et discrimination" ~ "Rights, Liberties, Minorities and Discrimination",
     Categories == "Terres publiques et agriculture" ~ "Public Lands and Agriculture",
-    Categories == "Santé et services sociaux" ~ "Health and Social Services",
+    Categories == "Santé et politiques sociales" ~ "Health and Social Policy",
     TRUE ~ Categories)) 
 
 dfcategoverdiENG <- dfcategoverdiENG %>%
@@ -140,7 +140,7 @@ dfcategoverdiENG$Status <- factor(dfcategoverdiENG$Status,
 ## graphique du 2eme mandat
 
 dfcategoverdiENG_percent <- dfcategoverdiENG %>%
-  filter(Term == 2) %>%
+  filter(Term == "2") %>%
   group_by(Categories) %>%
   mutate(Value2 = sum(Value)) |>
   mutate(Percentage = Value / sum(Value) * 100)
@@ -186,6 +186,28 @@ print(graphmandat2ENG)
 ggsave("_SharedFolder_livre_promesses-trudeau/Chapitre 1/graphs/mandat2ENG_plot.png", plot = graphmandat2ENG, width = 12, height = 6
 )
 
+ggplot(dfcategoverdiENG_percent, aes(
+  x = Percentage, y = reorder(Categories2, desc(Categories2)),
+  fill = Status)) +
+  geom_bar(stat = "identity")  +
+  geom_text(aes(label = round(Percentage), color = Status),
+            show.legend = FALSE,
+            position = position_stack(vjust = 0.5),
+            size = 4) +
+  scale_fill_manual(values = verdict_palette4) +
+  scale_color_manual(values = verdict_palette5) +
+  labs(x = "Percent of promises",
+       y = "Issue categories",
+       fill = "Fulfillment status") +
+  clessnverse::theme_clean_light(base_size = 17) +
+  theme(axis.title.x = element_text(hjust = 0.5),
+        axis.title.y = element_text(hjust = 0.5),
+        legend.title = element_text(),
+        legend.position = "right")
+        
+ggsave(paste0("_SharedFolder_livre_promesses-trudeau/Chapitre 1/graphs/",
+              "mandat2_plotEN.png"), width = 9, height = 6)
+
 
 ## graphique du 3eme mandat
 dfcategoverdiENG_percent <- dfcategoverdiENG %>%
@@ -230,3 +252,26 @@ print(graphmandat3ENG)
 
 ggsave("_SharedFolder_livre_promesses-trudeau/Chapitre 1/graphs/mandat3ENG_plot.png", plot = graphmandat3ENG, width = 12, height = 6
 )
+
+ggplot(dfcategoverdiENG_percent, aes(
+  x = Percentage, y = reorder(Categories2, desc(Categories2)),
+  fill = Status)) +
+  geom_bar(stat = "identity")  +
+  geom_text(aes(label = round(Percentage), color = Status),
+            show.legend = FALSE,
+            position = position_stack(vjust = 0.5),
+            size = 4) +
+  scale_fill_manual(values = verdict_palette3) +
+  scale_color_manual(values = verdict_palette6) +
+  labs(x = "Percent of promises",
+       y = "Issue categories",
+       fill = "Fulfillment status") +
+  clessnverse::theme_clean_light(base_size = 17) +
+  theme(axis.title.x = element_text(hjust = 0.5),
+        axis.title.y = element_text(hjust = 0.5),
+        legend.title = element_text(),
+        legend.position = "right")
+        
+ggsave(paste0("_SharedFolder_livre_promesses-trudeau/Chapitre 1/graphs/",
+              "mandat3_plotEN.png"), width = 9, height = 6)
+

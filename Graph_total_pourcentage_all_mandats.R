@@ -1,8 +1,7 @@
-library(tidyverse)
-library(openxlsx)
+pacman::p_load(tidyverse, openxlsx)
 
 dfexcelchap1 <- openxlsx::read.xlsx(
-  "_SharedFolder_livre_promesses-trudeau/Chapitre 1/BDTrudeau-Chap1.xlsx",
+  "_SharedFolder_livre_promesses-trudeau/Chapitre 1/Polimètre Trudeau ED 11 décembre.xlsx",
   3) |>
   filter(`Inclusion.Polimètre./.Inclusion.Polimeter` == TRUE) |>
   filter(`Mandat./.Mandate` %in% c("2", "3"))
@@ -56,7 +55,7 @@ ggsave(paste0("_SharedFolder_livre_promesses-trudeau/Chapitre 1/graphs/",
 ## VERSION 2 APRÈS MODIFICATIONS (MANDAT 1,2 ET 3 PLUTÔT QUE 2, 3 ET 2 & 3)
 ##
 
-dfexcelchap1 <- read.xlsx("_SharedFolder_livre_promesses-trudeau/Chapitre 1/BDTrudeau-Chap1.xlsx", 3) |>
+dfexcelchap1 <- read.xlsx("_SharedFolder_livre_promesses-trudeau/Chapitre 1/Polimètre Trudeau ED 11 décembre.xlsx", 3) |>
   filter(`Inclusion.Polimètre./.Inclusion.Polimeter` == TRUE)
 
 dftest41 <- dfexcelchap1 |>
@@ -65,18 +64,18 @@ dftest41 <- dfexcelchap1 |>
   filter(`Mandat./.Mandate` %in% c("1", "2", "3"))
 dfcategoverdiENG <- dfexcelchap1 %>%
   mutate(Nouvelle.catégorie = case_when(
-    Nouvelle.catégorie == "Affaires internationales et défense" ~ "International Affairs and Defense",
+    Nouvelle.catégorie == "Affaires internationales et défense" ~ "International Affairs and Defence",
     Nouvelle.catégorie == "Culture et nationalisme" ~ "Culture and Nationalism",
-    Nouvelle.catégorie == "Économie et travail" ~ "Economy and Labor",
+    Nouvelle.catégorie == "Économie et travail" ~ "Economy and Labour",
     Nouvelle.catégorie == "Éducation" ~ "Education",
     Nouvelle.catégorie == "Environnement et énergie" ~ "Environment and Energy",
     Nouvelle.catégorie == "Technologie" ~ "Technology",
     Nouvelle.catégorie == "Gouvernements et gouvernance" ~ "Governments and Governance",
-    Nouvelle.catégorie == "Identité et nationalisme" ~ "Identity and Nationalism",
+    Nouvelle.catégorie == "Immigration" ~ "Immigration",
     Nouvelle.catégorie == "Loi et crime" ~ "Law and Crime",
-    Nouvelle.catégorie == "Droits, libertés, minorités et discrimination" ~ "Rights, Liberties, Minorities, and Discrimination",
+    Nouvelle.catégorie == "Droits, libertés, minorités et discrimination" ~ "Rights, Liberties, Minorities and Discrimination",
     Nouvelle.catégorie == "Terres publiques et agriculture" ~ "Public Lands and Agriculture",
-    Nouvelle.catégorie == "Santé et services sociaux" ~ "Health and Social Services",
+    Nouvelle.catégorie == "Santé et politiques sociales" ~ "Health and Social Policy",
     TRUE ~ Nouvelle.catégorie)) 
 dftest41en <- dfcategoverdiENG |>
   group_by(Nouvelle.catégorie, `Mandat./.Mandate`) |>
@@ -86,7 +85,7 @@ dftest41en <- dfcategoverdiENG |>
 colnames(dftest41) <- c("Catégories", "Mandat", "Value" )
 colnames(dftest41en) <- c("Categories", "Mandate", "Value" )
 
-dftest41$Catégories <- gsub("et ", "\n et ", dftest41$Catégories)
+dftest41$Catégories <- gsub("et ", "\net ", dftest41$Catégories)
 dftest41en$Categories <- gsub("and ", "\nand ", dftest41en$Categories)
 
 ## Réordonner les colomnes en facteurs, et les réordonner comme souhaité
@@ -167,7 +166,7 @@ dftest42 <- dfexcelchap1 |>
 
 colnames(dftest42) <- c("Catégories", "Mandat", "Value" )
 
-dftest42$Catégories <- gsub("et ", "\n et ", dftest42$Catégories)
+dftest42$Catégories <- gsub("et ", "\net ", dftest42$Catégories)
 
 ## Réordonner les colomnes en facteurs, et les réordonner comme souhaité
 dftest42$Mandat <- as.character(dftest42$Mandat)

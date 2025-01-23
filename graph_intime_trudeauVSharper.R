@@ -1,6 +1,5 @@
 # Packages ----------------------------------------------------------------
-library(ggplot2)
-library(dplyr)
+pacman::p_load(tidyverse, ggtext)
 Sys.setlocale("LC_ALL", "fr_CA")
 
 # Data --------------------------------------------------------------------
@@ -70,7 +69,7 @@ ggplot(graph, aes(x = day_in_mandate, y = prop,
   scale_linetype_manual(values = c("harper1" = "dotted", "harper2" = "dashed", "harper3" = "solid",
                                    "trudeau1" = "dotted", "trudeau2" = "dashed", "trudeau3" = "solid"),
                         labels = labels, limits = names(labels)) +
-  ylab("Proportion des promesses réalisées,\npartiellement réalisées ou en voie\nde réalisation à ce jour (%)") +
+  ylab("Proportion des promesses réalisées,\npartiellement réalisées ou en voie\nde réalisation en novembre 2024 (%)") +
   xlab("\nJour dans le mandat") +
   scale_y_continuous(breaks = c(0, 25, 50, 75, 100),
                      limits = c(0, 100)) +
@@ -96,7 +95,7 @@ ggplot(graph, aes(x = day_in_mandate, y = prop,
   scale_linetype_manual(values = c("harper1" = "dotted", "harper2" = "dashed", "harper3" = "solid",
                                    "trudeau1" = "dotted", "trudeau2" = "dashed", "trudeau3" = "solid"),
                         labels = labels, limits = names(labels)) +
-  ylab("\nProportion of promises kept,\npartially kept, or in progress to\ndate (%)\n") +
+  ylab("\nProportion of promises kept,\npartially kept, or in progress\nas of November 2024 (%)\n") +
   xlab("\nDay in mandate\n") +
   scale_y_continuous(breaks = c(0, 25, 50, 75, 100),
                      limits = c(0, 100)) +
