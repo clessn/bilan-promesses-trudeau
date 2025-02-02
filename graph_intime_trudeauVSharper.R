@@ -6,12 +6,12 @@ Sys.setlocale("LC_ALL", "fr_CA")
 #Data <- readRDS("_SharedFolder_livre_promesses-trudeau/Chapitre 1/data/output_graph_trudeauharper.rds")
 Data <- readRDS("_SharedFolder_livre_promesses-trudeau/Chapitre 1/data/output_graph_trudeauharper_cpsa.rds")
 
-labels <- c("harper1" = "<span style='color:grey70'> Harper I (2006-2008)* </span>",
-            "trudeau1" = "Trudeau I (2015-2019)**",
-            "harper2" = "<span style='color:grey70'> Harper II (2008-2011)* </span>",
-            "trudeau2" = "Trudeau II (2019-2021)*",
-            "harper3" = "<span style='color:grey70'> Harper III (2011-2015)** </span>",
-            "trudeau3" = "Trudeau III (2021-2025)*")
+labels <- c("harper1" = "<span style='color:grey70'> Harper I (2006–2008)* </span>",
+            "trudeau1" = "Trudeau I (2015–2019)**",
+            "harper2" = "<span style='color:grey70'> Harper II (2008–2011)* </span>",
+            "trudeau2" = "Trudeau II (2019–2021)*",
+            "harper3" = "<span style='color:grey70'> Harper III (2011–2015)** </span>",
+            "trudeau3" = "Trudeau III (2021–2025)*")
 
 graph <- Data %>% 
   group_by(mandate_id, date_limit) %>% 
@@ -49,6 +49,7 @@ ggplot(graph, aes(x = day_in_mandate, y = prop,
   #           y = 78, linetype = "solid", linewidth = 0.15,
   #           show.legend = FALSE) +
   geom_line(linewidth = 0.5) +
+  geom_vline(xintercept = 100) +
   #geom_point(data = DatesImportantes,
   #           aes(y = prop - 0.5),
   #           alpha = 1, show.legend = FALSE,
@@ -70,7 +71,7 @@ ggplot(graph, aes(x = day_in_mandate, y = prop,
                                    "trudeau1" = "dotted", "trudeau2" = "dashed", "trudeau3" = "solid"),
                         labels = labels, limits = names(labels)) +
   ylab("Proportion des promesses réalisées,\npartiellement réalisées ou en voie\nde réalisation en novembre 2024 (%)") +
-  xlab("\nJour dans le mandat") +
+  scale_x_continuous("\nJour dans le mandat", breaks = c(100, 500, 1000, 1500)) +
   scale_y_continuous(breaks = c(0, 25, 50, 75, 100),
                      limits = c(0, 100)) +
   labs(caption = "* = gouvernement minoritaire\n** = gouvernement majoritaire") +
@@ -88,6 +89,7 @@ ggplot(graph, aes(x = day_in_mandate, y = prop,
                   group = mandate_id, linetype = mandate_id,
                   color = mandate_id)) +
   geom_line(linewidth = 0.5) +
+  geom_vline(xintercept = 100) +
   clessnize::theme_clean_light() +
   scale_color_manual(values = c("harper1" = "grey70", "harper2" = "grey70", "harper3" = "grey70",
                                 "trudeau1" = "black", "trudeau2" = "black", "trudeau3" = "black"),
@@ -96,7 +98,7 @@ ggplot(graph, aes(x = day_in_mandate, y = prop,
                                    "trudeau1" = "dotted", "trudeau2" = "dashed", "trudeau3" = "solid"),
                         labels = labels, limits = names(labels)) +
   ylab("\nProportion of promises kept,\npartially kept, or in progress\nas of November 2024 (%)\n") +
-  xlab("\nDay in mandate\n") +
+  scale_x_continuous("\nDay in mandate\n", breaks = c(100, 500, 1000, 1500)) +
   scale_y_continuous(breaks = c(0, 25, 50, 75, 100),
                      limits = c(0, 100)) +
   labs(caption = "* = Minority Government\n** = Majority Government") +

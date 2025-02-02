@@ -77,7 +77,8 @@ ggplot(dftest3_percent, aes(
   fill = Status)) +
   geom_bar(stat = "identity")  +
   geom_text(data = dftest3_percent,
-            aes(label = round(Percentage), color = Status),
+            aes(label = ifelse(Percentage > 10, round(Percentage), ""),
+              color = Status),
             show.legend = FALSE,
             position = position_stack(vjust = 0.5),
             size = 4) +
@@ -257,7 +258,8 @@ ggplot(dfcategoverdiENG_percent, aes(
   x = Percentage, y = reorder(Categories2, desc(Categories2)),
   fill = Status)) +
   geom_bar(stat = "identity")  +
-  geom_text(aes(label = round(Percentage), color = Status),
+  geom_text(aes(label = ifelse(Percentage > 10, round(Percentage), ""),
+              color = Status),
             show.legend = FALSE,
             position = position_stack(vjust = 0.5),
             size = 4) +

@@ -13,9 +13,9 @@ Data[1:2, ][c(2, 4:7)] <- c(
   354, 343) # total Trudeau II-III
 Data[1, ][c(1, 3, 8)] <- c("CAN", "Trudeau", "Min") # Trudeau III
 Data$Statut <- ifelse(Data$X4 == "Maj", "Majoritaire", "Minoritaire")
-Data$Années <- c("2021-2025", "2019-2021", "2015-2019", "2011-2015",
-                 "2008-2011", "2006-2008", "2004-2006", "2000-2004",
-                 "1997-2000", "1993-1997")
+Data$Années <- c("2021–2025", "2019–2021", "2015–2019", "2011–2015",
+                 "2008–2011", "2006–2008", "2004–2006", "2000–2004",
+                 "1997–2000", "1993–1997")
 Data$Année.de.début <- as.numeric(substr(Data$Années, 1, 4))
 Data$Gouvernement <- paste0(Data$Premier.ministre, " ", Data$Années, " (n = ",
                             Data$n, ")")
@@ -42,15 +42,15 @@ GraphData$Verdict <- factor(
   levels = c("PourcentRéalisées", "PourcentPartiellementRéalisées",
              "PourcentEnVoie", "PourcentSuspens", "PourcentRompues"),
   labels = c("Réalisées", "Partiellement\nréalisées",
-             "En voie de\nréalisation\n(Trudeau 44)",
-             "En suspens\n(Trudeau 44)", "Rompues"))
+             "En voie de\nréalisation\n(Trudeau\n2021–2025)",
+             "En suspens\n(Trudeau\n2021–2025)", "Rompues"))
 GraphData$PourcentText <- str_replace_all(
-  round(GraphData$Pourcent, 2), "\\.", ",")
-GraphData$PercentText <- round(GraphData$Pourcent, 2)
+  round(GraphData$Pourcent, 1), "\\.", ",")
+GraphData$PercentText <- round(GraphData$Pourcent, 1)
 
 bold.labels <- ifelse(levels(as.factor(GraphData$Gouvernement)) %in% c(
-  "Trudeau 2015-2019 (n = 353)", "Trudeau 2019-2021 (n = 343)",
-  "Trudeau 2021-2025 (n = 354)"), yes = "bold", no = "plain")
+  "Trudeau 2015–2019 (n = 353)", "Trudeau 2019–2021 (n = 343)",
+  "Trudeau 2021–2025 (n = 354)"), yes = "bold", no = "plain")
 verdict_palette3 <- c("#CCCCCC", "#AAAAAA", "#888888", "#555555", "black")
 verdict_palette6 <- c("black", "white", "white", "white", "white")
 
@@ -77,10 +77,10 @@ GraphData$VerdictEN <- NA
 GraphData$VerdictEN <- factor(
   GraphData$Verdict,
   levels = c("Réalisées", "Partiellement\nréalisées",
-             "En voie de\nréalisation\n(Trudeau 44)",
-             "En suspens\n(Trudeau 44)", "Rompues"),
-  labels = c("Kept", "Partially kept", "In progress\n(Trudeau 44)",
-             "Not yet rated\n(Trudeau 44)", "Broken"))
+             "En voie de\nréalisation\n(Trudeau\n2021–2025)",
+             "En suspens\n(Trudeau\n2021–2025)", "Rompues"),
+  labels = c("Kept", "Partially kept", "In progress\n(Trudeau\n2021–2025)",
+             "Not yet rated\n(Trudeau\n2021–2025)", "Broken"))
 ggplot(GraphData, aes(x = reorder(Gouvernement, Année.de.début),
                       y = Pourcent, fill = VerdictEN)) +
   geom_bar(stat = "identity", position = "fill") +
