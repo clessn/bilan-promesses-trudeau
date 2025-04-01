@@ -1,10 +1,10 @@
 pacman::p_load(tidyverse, openxlsx, stringdist, gridExtra, ggtext)
 Data <- openxlsx::read.xlsx(paste0(
-  "../polimetre-dev/_SharedFolder_polimetre-fonctionnement/",
+  "../polimetre-dev/Polimètres/",
   "14. BD/BD_Polimètre.xlsx"), 2) |>
   select(X1, X2, X3, Réalisée, Partiellement.réalisée, Rompue, n, X4) |>
   rename(Endroit = X1, Législature = X2, Premier.ministre = X3)
-Data <- Data[-c(11:22), ]
+Data <- Data[-c(11:22), ] # gouvernements Québec, NB, ON enlevés de la base de données
 Data[1:2, ][c(2, 4:7)] <- c(
   44, 43, # mandat
   140, 79, # réalisée
@@ -101,7 +101,7 @@ Promesses <- openxlsx::read.xlsx(
   "_SharedFolder_livre_promesses-trudeau/Chapitre 1/BDTrudeau-Chap1.xlsx",
   3) |> filter(`Inclusion.Polimètre./.Inclusion.Polimeter` == T)
 Promises <- openxlsx::read.xlsx(paste0(
-  "../polimetre-dev/_SharedFolder_polimetre-fonctionnement/",
+  "../polimetre-dev/Polimètres/",
   "14. BD/BD_Polimètre.xlsx"), 3)
 Promises <- filter(Promises, Origine == "CAN")
 mean(nchar(Promises$Libellé.en)[Promises$L == 35])
@@ -188,12 +188,12 @@ table(Promises$indigcollab, Promises$L)
 
 # Tri Trudeau
 AllPromises <- openxlsx::read.xlsx(paste0(
-  "../polimetre-dev/_SharedFolder_polimetre-fonctionnement/6. Polimètre",
+  "../polimetre-dev/Polimètres/6. Polimètre",
   " Fédéral (Trudeau-44)/",
   "3. Divers/Sélection des promesses étroites et importantes/TriFinal.xlsm")
 )[1:577,]
 AllPromisesRevised <- openxlsx::read.xlsx(paste0(
-  "../polimetre-dev/_SharedFolder_polimetre-fonctionnement/6. Polimètre",
+  "../polimetre-dev/Polimètres/6. Polimètre",
   " Fédéral (Trudeau-44)/PolimètreTrudeau.xlsx"), 2) |>
   filter(Mandat == 3)
 matched_rows <- matrix(NA, nrow = nrow(AllPromisesRevised),
